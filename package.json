@@ -2,7 +2,7 @@
   "name": "testing-things",
   "description": "Repository I use to test random things.",
   "author": "David Diaz",
-  "license": "ISC",
+  "license": "MIT",
   "keywords": [],
   "scripts": {}
 }
