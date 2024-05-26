@@ -1,6 +1,6 @@
 import express from 'express'
 import UserSearcher from '../src/user/application/UserSearcher.js'
-import {ContainerBuilder, YamlFileLoader} from "node-dependency-injection";
+import { ContainerBuilder, YamlFileLoader } from 'node-dependency-injection'
 
 const app = express()
 

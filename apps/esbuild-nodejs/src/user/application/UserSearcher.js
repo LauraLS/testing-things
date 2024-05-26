@@ -1,6 +1,6 @@
 export default class UserSearcher {
   constructor(value) {
-    this.value = value;
+    this.value = value
   }
 
   find(id) {
