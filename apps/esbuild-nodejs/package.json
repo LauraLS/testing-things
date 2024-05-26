@@ -1,0 +1,29 @@
+{
+  "name": "esbuild-nodejs",
+  "description": "",
+  "author": "David Diaz",
+  "license": "MIT",
+  "private": true,
+  "keywords": [
+    "esbuild",
+    "nodejs"
+  ],
+  "scripts": {
+    "build": "rimraf dist && copy 'app/**/*.yaml' dist/app && esbuild --outdir=dist --format=cjs --minify --sourcemap app/**/*.js src/**/*.js",
+    "dev": "concurrently \"npm run build -- --watch\" \"npm run start:watch\"",
+    "lint": "eslint src app --fix",
+    "start": "node dist/app/index.js",
+    "start:watch": "node --watch dist/app/index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "node-dependency-injection": "^3.1.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "copy": "^0.3.2",
+    "esbuild": "^0.20.2",
+    "eslint-config-mytools": "^0.0.7",
+    "rimraf": "^5.0.5"
+  }
+}

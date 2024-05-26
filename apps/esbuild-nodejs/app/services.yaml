@@ -1,0 +1,7 @@
+services:
+  src.user.UserSearcher:
+    class: '../src/user/application/UserSearcher.js'
+    arguments: ['%test%']
+
+parameters:
+  test: 'foo'
