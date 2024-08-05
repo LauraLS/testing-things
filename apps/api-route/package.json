@@ -1,0 +1,20 @@
+{
+  "name": "api-route",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": [],
+  "author": "David Diaz",
+  "license": "ISC",
+  "dependencies": {
+    "api-route": "0.0.12"
+  },
+  "devDependencies": {
+    "eslint-config-mytools": "^0.0.7"
+  }
+}
