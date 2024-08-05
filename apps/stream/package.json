@@ -1,0 +1,19 @@
+{
+  "name": "stream",
+  "description": "",
+  "main": "src/index.js",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "David Diaz",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint-config-mytools": "^0.0.7"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.7"
+  }
+}
