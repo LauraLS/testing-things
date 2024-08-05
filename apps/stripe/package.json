@@ -1,0 +1,33 @@
+{
+  "name": "stripe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "dev": "nodemon",
+    "lint": "eslint . --fix",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "David Diaz",
+  "license": "ISC",
+  "dependencies": {
+    "api-route": "0.0.12",
+    "stripe": "^16.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.1.0",
+    "eslint-config-mytools": "^0.0.7",
+    "mytools-tsconfig": "^0.1.0",
+    "nodemon": "^3.1.4",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}

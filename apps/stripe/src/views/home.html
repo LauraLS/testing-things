@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Hello World!</h1>
+    <button id="init">Init Payment</button>
+
+    <script>
+        const initBtn = document.getElementById('init')
+        initBtn.addEventListener('click', async () => {
+            const response = await fetch('/init', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const data = await response.json()
+            const {url} = data
+            window.location.href = url
+        })
+    </script>
+</body>
+</html>
