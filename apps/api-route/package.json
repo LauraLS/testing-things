@@ -12,7 +12,7 @@
   "author": "David Diaz",
   "license": "ISC",
   "dependencies": {
-    "api-route": "0.0.12"
+    "api-route": "workspace:*"
   },
   "devDependencies": {
     "eslint-config-mytools": "^0.0.7"

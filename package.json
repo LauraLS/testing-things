@@ -4,5 +4,7 @@
   "author": "David Diaz",
   "license": "MIT",
   "keywords": [],
-  "scripts": {}
+  "scripts": {
+    "update-deps": "pnpm --recursive update --latest"
+  }
 }

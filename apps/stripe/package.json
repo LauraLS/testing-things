@@ -18,15 +18,15 @@
   "author": "David Diaz",
   "license": "ISC",
   "dependencies": {
-    "api-route": "0.0.12",
-    "stripe": "^16.6.0"
+    "api-route": "workspace:*",
+    "stripe": "^16.7.0"
   },
   "devDependencies": {
-    "@types/node": "^22.1.0",
+    "@types/node": "^22.2.0",
     "eslint-config-mytools": "^0.0.7",
     "mytools-tsconfig": "^0.1.0",
     "nodemon": "^3.1.4",
-    "rimraf": "^5.0.5",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }
