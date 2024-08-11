@@ -1,0 +1,17 @@
+{
+  "name": "jwa",
+  "description": "kata jws",
+  "private": true,
+  "author": "David Diaz <diazdavid.info@gmail.com>",
+  "license": "ISC",
+  "scripts": {},
+  "devDependencies": {
+    "@types/jws": "3.2.6",
+    "eslint-config-mytools": "^0.0.7",
+    "mytools-tsconfig": "^0.1.0",
+    "ts-node": "10.9.1"
+  },
+  "dependencies": {
+    "jws": "4.0.0"
+  }
+}
