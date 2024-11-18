@@ -1,0 +1,25 @@
+{
+  "name": "cloud-task-google",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx --watch --env-file=.env index.ts"
+  },
+  "keywords": [],
+  "author": "David Diaz",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/tasks": "^5.5.1",
+    "api-route": "^0.0.13",
+    "google-auth-library": "^9.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "eslint-config-mytools": "^0.0.7",
+    "mytools-tsconfig": "^0.1.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.3"
+  }
+}
