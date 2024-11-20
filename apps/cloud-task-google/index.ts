@@ -64,9 +64,12 @@ app.add('POST', '/read-task', async ({ request }): Promise<Response> => {
 
   const [, token] = authHeader.split(' ')
 
-  await jwt.verifyIdToken({ idToken: token })
-
-  return Response.json({ status: 'ok', body: json })
+  try {
+    await jwt.verifyIdToken({ idToken: token })
+    return Response.json({ status: 'ok', body: json })
+  } catch {
+    return Response.json({ status: 'fail', body: json })
+  }
 })
 
 app.run(4221, () => {
