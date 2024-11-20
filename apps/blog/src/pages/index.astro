@@ -1,7 +1,23 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("posts");
 ---
 
 <Layout title="Welcome to Astro.">
-	<h1>Blog</h1>
+  <h1 class="text-4xl text-center mt-4">Blog</h1>
+  <section class="grid grid-cols-3 gap-4 mt-4">
+    {
+      posts.map((post) => {
+        return (
+          <article>
+            <h2>
+              <a href={post.slug}>{post.data.title}</a>
+            </h2>
+          </article>
+        );
+      })
+    }
+  </section>
 </Layout>
