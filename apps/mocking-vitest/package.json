@@ -1,0 +1,20 @@
+{
+  "name": "mocking-vitest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "David Diaz",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^22.10.5",
+    "axios": "^1.7.9",
+    "prettier": "^3.3.3",
+    "typescript": "^5.7.3",
+    "vitest": "^2.0.5"
+  }
+}
