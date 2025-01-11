@@ -1,5 +1,5 @@
 {
-  "name": "api-route",
+  "name": "test-api-route",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -12,7 +12,7 @@
   "author": "David Diaz",
   "license": "ISC",
   "dependencies": {
-    "api-route": "workspace:*"
+    "api-route": "^0.0.13"
   },
   "devDependencies": {
     "eslint-config-mytools": "^0.0.7"

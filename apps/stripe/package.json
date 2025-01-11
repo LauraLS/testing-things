@@ -18,7 +18,7 @@
   "author": "David Diaz",
   "license": "ISC",
   "dependencies": {
-    "api-route": "workspace:*",
+    "api-route": "^0.0.13",
     "stripe": "^16.7.0"
   },
   "devDependencies": {
