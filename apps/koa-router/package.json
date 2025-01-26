@@ -1,0 +1,22 @@
+{
+  "name": "koa-router",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch index.ts"
+  },
+  "keywords": [],
+  "author": "David Diaz",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/router": "^13.1.0",
+    "@types/koa": "^2.15.0",
+    "@types/koa__router": "^12.0.4",
+    "@types/node": "^22.10.10",
+    "koa": "^2.15.3",
+    "prettier": "^3.3.3",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.3"
+  }
+}
