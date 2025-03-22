@@ -16,8 +16,8 @@
     "eslint-config-mytools": "^0.0.7"
   },
   "dependencies": {
-    "express": "^4.19.2",
+    "express": "^4.21.2",
     "express-handlebars": "^8.0.1",
-    "google-auth-library": "^9.13.0"
+    "google-auth-library": "^9.15.1"
   }
 }

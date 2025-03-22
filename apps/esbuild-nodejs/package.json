@@ -16,13 +16,13 @@
     "start:watch": "node --watch dist/app/index.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "node-dependency-injection": "^3.1.2"
+    "express": "^4.21.2",
+    "node-dependency-injection": "^3.2.2"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.1.2",
     "copy": "^0.3.2",
-    "esbuild": "^0.23.0",
+    "esbuild": "^0.25.1",
     "eslint-config-mytools": "^0.0.7",
     "rimraf": "^6.0.1"
   }
