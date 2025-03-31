@@ -1,0 +1,37 @@
+---
+import Builder from "@/components/Builder";
+import Layout from "@/layouts/Layout.astro";
+import ComponentsMenu from "../components/ComponentsMenu.astro";
+import { Button } from "@/components/ui/button";
+---
+
+<Layout>
+  <header class="w-full bg-gray-300 p-2">
+    <nav class="flex flex-row gap-2 items-center">
+      <a href="/">Home</a>
+      <p>Version 2</p>
+    </nav>
+  </header>
+  <div
+    class="flex flex-row gap-2 justify-center w-full h-full relative bg-gray-100"
+  >
+    <section
+      class="bg-white flex flex-col gap-2 px-2 py-4 rounded-2xl absolute top-5 left-5"
+    >
+      <ComponentsMenu />
+    </section>
+    <section class="bg-amber-400 w-[600px]">
+      <Builder client:idle />
+    </section>
+    <section
+      class="bg-white flex flex-col gap-2 px-2 py-4 rounded-2xl absolute top-5 right-5"
+    >
+      <p>Ajustes Generales</p>
+      <p>Color del fondo</p>
+      <p>Ancho</p>
+      <p>Alineación</p>
+      <p>Subrarayado</p>
+      <p>Diseño</p>
+    </section>
+  </div>
+</Layout>
