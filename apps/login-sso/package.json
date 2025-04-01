@@ -15,8 +15,10 @@
   },
   "keywords": [],
   "dependencies": {
+    "@azure/msal-node": "3.4.0",
     "axios": "^1.8.4",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "saml2-js": "^4.0.3"
   },
   "devDependencies": {
