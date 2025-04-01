@@ -70,7 +70,7 @@ app.post('/auth/redirect', async (req: Request, res: Response) => {
     updatedAt: new Date()
   })
 
-  return res.json({ token: tokenResponse, tokenCache: msalInstance.getTokenCache().serialize() })
+  res.json({ token: tokenResponse, tokenCache: msalInstance.getTokenCache().serialize() })
 })
 
 app.get('/auth/redirect', async (req: Request, res: Response) => {
@@ -84,8 +84,10 @@ app.get('/auth/redirect', async (req: Request, res: Response) => {
 
   const tokenResponse = await msalInstance.acquireTokenByCode(authCodeRequest)
 
-  if (tokenResponse.account?.homeAccountId === undefined)
-    return res.status(401).json({ status: 401, error: 'Fallo al optener la cuenta' })
+  if (tokenResponse.account?.homeAccountId === undefined) {
+    res.status(401).json({status: 401, error: 'Fallo al optener la cuenta'})
+    return
+  }
 
   const [account] = await dbConnection('accounts')
     .select('*')
@@ -112,7 +114,7 @@ app.get('/auth/redirect', async (req: Request, res: Response) => {
     })
   }
 
-  return res.json({ token: tokenResponse, tokenCache: msalInstance.getTokenCache().serialize() })
+  res.json({ token: tokenResponse, tokenCache: msalInstance.getTokenCache().serialize() })
 })
 
 app.get('/me/:accountId', async (req: Request, res: Response) => {
@@ -218,19 +220,22 @@ app.post('/me/:accountId/subscriptions', async (req: Request, res: Response) => 
 
   const subscriptionResponse = await client.api('/subscriptions').post(subscription)
 
-  return res.status(200).json({ subscriptionResponse })
+  res.status(200).json({ subscriptionResponse })
 })
 
 app.post('/api/send/myNotifyClient', async (req: Request, res: Response) => {
   const { validationToken } = req.query
 
-  if (validationToken) return res.status(200).send(validationToken)
+  if (validationToken) {
+    res.json({ code: 200, message: 'Hello World! 🐷' })
+    return
+  }
 
   console.log(JSON.stringify(req.body))
 
   const { clientState } = req.body
 
-  return res.status(200).send(clientState)
+  res.status(200).send(clientState)
 })
 
 app.listen(port, () => {
