@@ -2,9 +2,14 @@ import { create } from "zustand"
 import { v4 as uuidv4 } from "uuid"
 
 interface EditorState {
+  dragSection: boolean
+  generalOptions: { width: number; backgroundColor: string }
   sections: any
   structure: any
   addSection: (rowId: string) => void
+  changeDragSection: (dragSection: boolean) => void
+  changeGeneralWidth: (width: number) => void
+  changeGeneralBackgroundColor: (backgroundColor: string) => void
 }
 
 const Match = {
@@ -60,6 +65,8 @@ const sections = [
 ]
 
 const initialState = {
+  dragSection: false,
+  generalOptions: { width: 600, backgroundColor: "#ffffff" },
   sections: sections,
   structure: {
     html: {
@@ -92,6 +99,10 @@ const initialState = {
 export const useEditorStore = create<EditorState>()((set) => ({
   ...initialState,
 
+  changeDragSection: (dragSection: boolean) =>
+    set((state) => {
+      return { ...state, dragSection }
+    }),
   addSection: (rowId: string) =>
     set((state) => {
       const newSections = []
@@ -117,6 +128,18 @@ export const useEditorStore = create<EditorState>()((set) => ({
       return {
         ...state,
         sections: newSections,
+      }
+    }),
+  changeGeneralWidth: (width: number) =>
+    set((state) => {
+      return { ...state, generalOptions: { ...state.generalOptions, width } }
+    }),
+  changeGeneralBackgroundColor: (backgroundColor: string) =>
+    set((state) => {
+      console.log({ backgroundColor })
+      return {
+        ...state,
+        generalOptions: { ...state.generalOptions, backgroundColor },
       }
     }),
 }))
