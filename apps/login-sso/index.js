@@ -2,7 +2,8 @@ import express from 'express'
 import { IdentityProvider, ServiceProvider } from 'saml2-js'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import axios from 'axios'
+import {ConfidentialClientApplication} from "@azure/msal-node";
+import session from 'express-session'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -21,6 +22,12 @@ const LOGOUT_URL = 'https://login.microsoftonline.com/common/saml2'
 
 const app = express()
 const port = 4001
+
+app.use(session({
+    secret: 'someSecretKey',
+    resave: false,
+    saveUninitialized: true,
+}))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -83,41 +90,50 @@ app.post('/callback', async (req, res) => {
 
   sp.post_assert(idp, options, async function (err, samlResponse) {
     if (err !== null) return res.send(err).status(500)
-    const token = await getGraphToken(req.body)
-    res.json({ samlResponse, token })
+    req.session.user = { name: samlResponse.user.name_id, attributes: samlResponse.user.attributes }
+    const params = new URLSearchParams({
+      client_id: CLIENT_ID,
+      response_type: 'code',
+      redirect_uri: `${SAML_URL}/delegate`,
+      response_mode: 'query',
+      scope: 'openid profile offline_access',
+      state: 'oidc'
+    })
+    const authorizationUrl = `https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/authorize?${params.toString()}`
+    return res.redirect(authorizationUrl)
   })
 })
 
-async function getGraphToken(samlResponse) {
-  try {
-    const samlToken = samlResponse.SAMLResponse
 
-    console.log('TENANT_ID', TENANT_ID)
-    const tokenResponse = await axios.post(
-      `https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/token`,
-      {
-        client_id: CLIENT_ID,
-        client_secret: CLIENT_SECRET,
-        scope: 'https://graph.microsoft.com/.default',
-        grant_type: 'urn:ietf:params:oauth:grant-type:saml2-bearer',
-        assertion: samlToken,
-        // requested_token_use: 'on_behalf_of',
-      },
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      }
-    )
-
-    console.log('TOKEN RESPONSE:', tokenResponse)
-
-    return tokenResponse.data.access_token
-  } catch (error) {
-    console.error('Error obteniendo token para Microsoft Graph:', error)
-    throw error
+app.get('/delegate', async (req, res) =>{
+  const authCode = req.query.code
+  const msalConfig = {
+    auth: {
+      clientId: CLIENT_ID,
+      clientSecret:CLIENT_SECRET,
+      authority: `https://login.microsoftonline.com/${TENANT_ID}`
+    }
   }
-}
+  const cca = new ConfidentialClientApplication(msalConfig)
+  try {
+    const tokenResponse = await cca.acquireTokenByCode({
+      code: authCode,
+      scopes: ['openid', 'profile', 'offline_access'],
+      redirectUri: `${SAML_URL}/delegate`
+    })
+
+    req.session.delegatedToken = tokenResponse.accessToken
+
+    return res.json({
+      message: 'Autenticación delegada completada',
+      user: req.session.user,
+      delegatedToken: tokenResponse.accessToken
+    })
+  } catch (error) {
+    console.error('Error al obtener token delegado OIDC:', error)
+    return res.status(500).json({ error: error.toString() })
+  }
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
