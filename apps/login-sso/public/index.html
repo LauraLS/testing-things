@@ -64,7 +64,9 @@
   }
 
   const login = () => {
-    msalInstance.loginPopup({})
+    msalInstance.loginPopup({
+      scopes: scopes
+    })
       .then(() => window.location.reload())
       .catch(console.error);
   }
