@@ -1,60 +1,89 @@
 <!DOCTYPE html>
-<html lang="es">
+<html data-theme="light" lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="light dark" name="color-scheme">
+  <title>Login</title>
+  <link
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+      rel="stylesheet"
+  >
 </head>
 <body>
-    <h1>Login</h1>
-    <a href="/init-login">Login</a>
+<main>
+  <h1>Login</h1>
+  <section>
+    <button id="login-backend">Login Backend</button>
+    <button id="login-frontend">Login Frontend</button>
+  </section>
+</main>
 </body>
+<style>
+    body {
+        width: 600px;
+        margin: auto;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
 <script type="module">
-    // import {PublicClientApplication} from 'https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.8.0/+esm'
-    import {PublicClientApplication} from 'https://esm.sh/@azure/msal-browser@4.8.0'
+  // import {PublicClientApplication} from 'https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.8.0/+esm'
+  import {PublicClientApplication} from 'https://esm.sh/@azure/msal-browser@4.8.0'
 
-    const msalConfig = {
-        auth: {
-            clientId: "XXXXX",
-        },
-    };
+  const msalConfig = {
+    auth: {
+      clientId: "XXXXX",
+    },
+  };
 
-    const scopes = [
-        "https://graph.microsoft.com/User.Read",
-        "https://graph.microsoft.com/Team.ReadBasic.All",
-        "https://graph.microsoft.com/Channel.ReadBasic.All"
-    ];
+  const scopes = [
+    "https://graph.microsoft.com/User.Read",
+    "https://graph.microsoft.com/Team.ReadBasic.All",
+    "https://graph.microsoft.com/Channel.ReadBasic.All"
+  ];
 
-    const msalInstance = new PublicClientApplication(msalConfig);
-    await msalInstance.initialize();
+  const msalInstance = new PublicClientApplication(msalConfig);
+  await msalInstance.initialize();
 
+  const loginBackendButton = document.getElementById("login-backend");
+  const loginFrontendButton = document.getElementById("login-frontend");
 
+  loginBackendButton.addEventListener("click", async () => {
+    window.location.href = "/init-login";
+  })
+
+  loginFrontendButton.addEventListener("click", async () => {
     try {
-        const loginResponse = await msalInstance.loginPopup({});
-        console.log(loginResponse);
+      const loginResponse = await msalInstance.loginPopup({});
+      console.log(loginResponse);
 
-        const tokenResponse = await msalInstance.acquireTokenSilent({
-            scopes: scopes,
-            account: loginResponse.account
-        });
+      const tokenResponse = await msalInstance.acquireTokenSilent({
+        scopes: scopes,
+        account: loginResponse.account
+      });
 
-        const response = await fetch("https://graph.microsoft.com/v1.0/me/joinedTeams", {
-            headers: {
-                "Authorization": `Bearer ${tokenResponse.accessToken}`
-            }
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log("Equipos de Teams:", data);
-        } else {
-            console.error("Error al obtener datos de Teams:", await response.text());
-            throw new Error("Error al llamar a la API de Teams");
+      const response = await fetch("https://graph.microsoft.com/v1.0/me/joinedTeams", {
+        headers: {
+          "Authorization": `Bearer ${tokenResponse.accessToken}`
         }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Equipos de Teams:", data);
+      } else {
+        console.error("Error al obtener datos de Teams:", await response.text());
+        throw new Error("Error al llamar a la API de Teams");
+      }
 
     } catch (err) {
-        console.log(err);
-        // handle error
+      console.log(err);
     }
-    console.log('Hello world')
+  })
 </script>
 </html>
