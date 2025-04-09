@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEditorStore } from "@/stores/editor-store.ts";
 import type { DragEvent } from "react";
 import { Slider } from "@/components/ui/slider";
-import { Image } from "lucide-react";
+import { Image, LetterText } from "lucide-react";
 
 export default function AsideMenu() {
   const changeDragSection = useEditorStore((state) => state.changeDragSection);
@@ -87,16 +87,79 @@ export default function AsideMenu() {
       </TabsContent>
       <TabsContent
         value="rows"
-        className="border border-black rounded p-3 flex flex-col gap-y-2"
+        className="border border-black rounded p-3 grid grid-cols-4 gap-3"
       >
         <div
           data-type="1"
-          className="size-20 bg-pink-50 flex justify-center items-center"
+          className="w-full aspect-square bg-pink-50 flex justify-center items-center"
           draggable="true"
           onDragStart={handleDragRowStart}
           onDragEnd={handleDragRowEnd}
         >
           <Image strokeWidth={1} size={40} className="" />
+        </div>
+        <div
+          data-type="1"
+          className="w-full aspect-square bg-pink-50 flex justify-center items-center"
+          draggable="true"
+          onDragStart={handleDragRowStart}
+          onDragEnd={handleDragRowEnd}
+        >
+          <LetterText strokeWidth={1} size={40} className="" />
+        </div>
+        <div
+          data-type="1"
+          className="w-full aspect-square bg-pink-50 flex justify-center items-center"
+          draggable="true"
+          onDragStart={handleDragRowStart}
+          onDragEnd={handleDragRowEnd}
+        >
+          <Image strokeWidth={1} size={40} className="" />
+        </div>
+        <div
+          data-type="1"
+          className="w-full aspect-square bg-pink-50 flex justify-center items-center"
+          draggable="true"
+          onDragStart={handleDragRowStart}
+          onDragEnd={handleDragRowEnd}
+        >
+          <LetterText strokeWidth={1} size={40} className="" />
+        </div>
+        <div
+          data-type="1"
+          className="w-full aspect-square bg-pink-50 flex justify-center items-center"
+          draggable="true"
+          onDragStart={handleDragRowStart}
+          onDragEnd={handleDragRowEnd}
+        >
+          <Image strokeWidth={1} size={40} className="" />
+        </div>
+        <div
+          data-type="1"
+          className="w-full aspect-square bg-pink-50 flex justify-center items-center"
+          draggable="true"
+          onDragStart={handleDragRowStart}
+          onDragEnd={handleDragRowEnd}
+        >
+          <LetterText strokeWidth={1} size={40} className="" />
+        </div>
+        <div
+          data-type="1"
+          className="w-full aspect-square bg-pink-50 flex justify-center items-center"
+          draggable="true"
+          onDragStart={handleDragRowStart}
+          onDragEnd={handleDragRowEnd}
+        >
+          <Image strokeWidth={1} size={40} className="" />
+        </div>
+        <div
+          data-type="1"
+          className="w-full aspect-square bg-pink-50 flex justify-center items-center"
+          draggable="true"
+          onDragStart={handleDragRowStart}
+          onDragEnd={handleDragRowEnd}
+        >
+          <LetterText strokeWidth={1} size={40} className="" />
         </div>
       </TabsContent>
       <TabsContent
