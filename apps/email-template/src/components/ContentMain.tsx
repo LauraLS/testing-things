@@ -28,7 +28,7 @@ export default function ContentMain() {
   return (
     <div
       style={{ backgroundColor: generalOptions.backgroundColor }}
-      className="overflow-scroll w-full h-full"
+      className="w-full"
     >
       {rows.map(({ id, type }) => (
         <ContentMainRow key={id} id={id} variant={type} onDrop={handleDrop} />
