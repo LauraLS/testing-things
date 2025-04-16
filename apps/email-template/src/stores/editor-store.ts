@@ -3,11 +3,13 @@ import { v4 as uuidv4 } from "uuid"
 
 interface EditorState {
   dragSection: boolean
+  dragRow: boolean
   generalOptions: { width: number; backgroundColor: string }
   sections: any
   structure: any
   addSection: (rowId: string) => void
   changeDragSection: (dragSection: boolean) => void
+  changeDragRow: (dragRow: boolean) => void
   changeGeneralWidth: (width: number) => void
   changeGeneralBackgroundColor: (backgroundColor: string) => void
 }
@@ -66,6 +68,7 @@ const sections = [
 
 const initialState = {
   dragSection: false,
+  dragRow: false,
   generalOptions: { width: 600, backgroundColor: "#ffffff" },
   sections: sections,
   structure: {
@@ -102,6 +105,10 @@ export const useEditorStore = create<EditorState>()((set) => ({
   changeDragSection: (dragSection: boolean) =>
     set((state) => {
       return { ...state, dragSection }
+    }),
+  changeDragRow: (dragRow: boolean) =>
+    set((state) => {
+      return { ...state, dragRow }
     }),
   addSection: (rowId: string) =>
     set((state) => {

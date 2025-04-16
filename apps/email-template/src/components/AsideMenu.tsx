@@ -6,6 +6,7 @@ import { Image, LetterText } from "lucide-react";
 
 export default function AsideMenu() {
   const changeDragSection = useEditorStore((state) => state.changeDragSection);
+  const changeDragRow = useEditorStore((state) => state.changeDragRow);
   const generalOptions = useEditorStore((state) => state.generalOptions);
   const changeGeneralWidth = useEditorStore(
     (state) => state.changeGeneralWidth,
@@ -27,9 +28,18 @@ export default function AsideMenu() {
     changeDragSection(false);
   };
 
-  const handleDragRowStart = (event: DragEvent<HTMLDivElement>) => {};
+  const handleDragRowStart = (event: DragEvent<HTMLDivElement>) => {
+    changeDragRow(true);
+    const target = event.target as HTMLDivElement;
+    event.dataTransfer.setData(
+      "object",
+      JSON.stringify({ type: target.dataset.type }),
+    );
+  };
 
-  const handleDragRowEnd = (event: DragEvent<HTMLDivElement>) => {};
+  const handleDragRowEnd = (event: DragEvent<HTMLDivElement>) => {
+    changeDragRow(false);
+  };
 
   return (
     <Tabs defaultValue="rows" className="w-full">
@@ -90,7 +100,7 @@ export default function AsideMenu() {
         className="border border-black rounded p-3 grid grid-cols-4 gap-3"
       >
         <div
-          data-type="1"
+          data-type="image"
           className="w-full aspect-square bg-pink-50 flex justify-center items-center"
           draggable="true"
           onDragStart={handleDragRowStart}
@@ -99,7 +109,7 @@ export default function AsideMenu() {
           <Image strokeWidth={1} size={40} className="" />
         </div>
         <div
-          data-type="1"
+          data-type="text"
           className="w-full aspect-square bg-pink-50 flex justify-center items-center"
           draggable="true"
           onDragStart={handleDragRowStart}
@@ -108,7 +118,7 @@ export default function AsideMenu() {
           <LetterText strokeWidth={1} size={40} className="" />
         </div>
         <div
-          data-type="1"
+          data-type="image"
           className="w-full aspect-square bg-pink-50 flex justify-center items-center"
           draggable="true"
           onDragStart={handleDragRowStart}
@@ -117,7 +127,7 @@ export default function AsideMenu() {
           <Image strokeWidth={1} size={40} className="" />
         </div>
         <div
-          data-type="1"
+          data-type="text"
           className="w-full aspect-square bg-pink-50 flex justify-center items-center"
           draggable="true"
           onDragStart={handleDragRowStart}
@@ -126,7 +136,7 @@ export default function AsideMenu() {
           <LetterText strokeWidth={1} size={40} className="" />
         </div>
         <div
-          data-type="1"
+          data-type="image"
           className="w-full aspect-square bg-pink-50 flex justify-center items-center"
           draggable="true"
           onDragStart={handleDragRowStart}
@@ -135,7 +145,7 @@ export default function AsideMenu() {
           <Image strokeWidth={1} size={40} className="" />
         </div>
         <div
-          data-type="1"
+          data-type="text"
           className="w-full aspect-square bg-pink-50 flex justify-center items-center"
           draggable="true"
           onDragStart={handleDragRowStart}
@@ -144,7 +154,7 @@ export default function AsideMenu() {
           <LetterText strokeWidth={1} size={40} className="" />
         </div>
         <div
-          data-type="1"
+          data-type="image"
           className="w-full aspect-square bg-pink-50 flex justify-center items-center"
           draggable="true"
           onDragStart={handleDragRowStart}
@@ -153,7 +163,7 @@ export default function AsideMenu() {
           <Image strokeWidth={1} size={40} className="" />
         </div>
         <div
-          data-type="1"
+          data-type="text"
           className="w-full aspect-square bg-pink-50 flex justify-center items-center"
           draggable="true"
           onDragStart={handleDragRowStart}

@@ -1,5 +1,6 @@
 import { type DragEvent, type PropsWithChildren, useState } from "react";
 import { useEditorStore } from "@/stores/editor-store.ts";
+import ContentRowElement from "@/components/ContentRowElement.tsx";
 
 type ContentMainRowProps = {
   id: string;
@@ -61,13 +62,6 @@ export default function ContentMainRow({
     onDrop(event, id, direction);
   };
 
-  const getGridSpan = (variant: any) => {
-    if (variant === "2") return "col-span-6";
-    if (variant === "3") return "col-span-4";
-    if (variant === "4") return "col-span-3";
-    return "col-span-12";
-  };
-
   return (
     <div className="flex flex-col justify-center items-center w-full h-32 hover:border-2 hover:border-black relative">
       <div
@@ -75,12 +69,7 @@ export default function ContentMainRow({
         className="grid grid-cols-12 gap-x-2"
       >
         {columns.map((column, index) => (
-          <div
-            key={index}
-            className={`${getGridSpan(variant)} flex flex-col justify-center items-center h-20 border border-dashed border-gray-500 bg-gray-300`}
-          >
-            <p>Drop content blocks here</p>
-          </div>
+          <ContentRowElement key={index} variant={variant} />
         ))}
       </div>
       {dragSection && (
