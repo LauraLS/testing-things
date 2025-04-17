@@ -1,8 +1,8 @@
 import { type DragEvent, type PropsWithChildren, useState } from "react";
 import { useEditorStore } from "@/stores/editor-store.ts";
-import ContentRowElementEmpty from "@/components/ui/ContentRowElementEmpty.tsx";
-import ContentRowElementText from "@/components/ui/ContentRowElementText.tsx";
-import ContentRowElementImage from "@/components/ui/ContentRowElementImage.tsx";
+import ContentRowElementEmpty from "@/components/ContentRowElementEmpty.tsx";
+import ContentRowElementText from "@/components/ContentRowElementText.tsx";
+import ContentRowElementImage from "@/components/ContentRowElementImage.tsx";
 
 type ContentElementRowProps = {
   variant: string;
