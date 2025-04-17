@@ -1,5 +1,8 @@
 import { type DragEvent, type PropsWithChildren, useState } from "react";
 import { useEditorStore } from "@/stores/editor-store.ts";
+import ContentRowElementEmpty from "@/components/ui/ContentRowElementEmpty.tsx";
+import ContentRowElementText from "@/components/ui/ContentRowElementText.tsx";
+import ContentRowElementImage from "@/components/ui/ContentRowElementImage.tsx";
 
 type ContentElementRowProps = {
   variant: string;
@@ -22,11 +25,26 @@ const getDragOverColor = (isDragging: boolean) => {
   return "bg-transparent";
 };
 
+function ElementComponent({
+  variant,
+  className,
+}: PropsWithChildren<{ variant: string | undefined; className: string }>) {
+  switch (variant) {
+    case "text":
+      return <ContentRowElementText />;
+    case "image":
+      return <ContentRowElementImage />;
+    default:
+      return <ContentRowElementEmpty className={className} />;
+  }
+}
+
 export default function ContentRowElement({
   variant,
 }: PropsWithChildren<ContentElementRowProps>) {
   const dragRow = useEditorStore((state) => state.dragRow);
-  const [over, setOver] = useState(false);
+  const [over, setOver] = useState<boolean>(false);
+  const [component, setComponent] = useState<string | undefined>(undefined);
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -43,16 +61,16 @@ export default function ContentRowElement({
     setOver(false);
     const type = JSON.parse(event.dataTransfer.getData("object"))
       .type as string;
+    setComponent(type);
   };
 
   return (
     <div className={`${getGridSpan(variant)} relative w-full`}>
-      <div
-        className={`flex flex-col justify-center items-center h-20 ${getBorderStyle(dragRow)} bg-gray-300`}
-      >
-        <p className="text-center">Drop content blocks here</p>
-      </div>
-      {dragRow && (
+      <ElementComponent
+        variant={component}
+        className={getBorderStyle(dragRow)}
+      />
+      {!component && dragRow && (
         <div
           className={`${getDragOverColor(over)} absolute top-0 left-0 w-full h-full flex gap-2 items-center justify-center bg-indigo-400/60`}
           onDragOver={(event) => handleDragOver(event)}
