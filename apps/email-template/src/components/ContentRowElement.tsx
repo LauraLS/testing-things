@@ -5,7 +5,7 @@ import ContentRowElementText from "@/components/ContentRowElementText.tsx";
 import ContentRowElementImage from "@/components/ContentRowElementImage.tsx";
 
 type ContentElementRowProps = {
-  variant: string;
+  child: any;
 };
 
 const getGridSpan = (variant: any) => {
@@ -40,11 +40,11 @@ function ElementComponent({
 }
 
 export default function ContentRowElement({
-  variant,
+  child,
 }: PropsWithChildren<ContentElementRowProps>) {
   const dragRow = useEditorStore((state) => state.dragRow);
+  const changeChildType = useEditorStore((state) => state.changeChildType);
   const [over, setOver] = useState<boolean>(false);
-  const [component, setComponent] = useState<string | undefined>(undefined);
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -61,16 +61,16 @@ export default function ContentRowElement({
     setOver(false);
     const type = JSON.parse(event.dataTransfer.getData("object"))
       .type as string;
-    setComponent(type);
+    changeChildType(child.id, type);
   };
 
   return (
-    <div className={`${getGridSpan(variant)} relative w-full`}>
+    <div className={`${getGridSpan(child.column)} relative w-full`}>
       <ElementComponent
-        variant={component}
+        variant={child.type}
         className={getBorderStyle(dragRow)}
       />
-      {!component && dragRow && (
+      {!child.type && dragRow && (
         <div
           className={`${getDragOverColor(over)} absolute top-0 left-0 w-full h-full flex gap-2 items-center justify-center bg-indigo-400/60`}
           onDragOver={(event) => handleDragOver(event)}

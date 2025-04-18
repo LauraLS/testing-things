@@ -6,12 +6,15 @@ interface EditorState {
   dragRow: boolean
   generalOptions: { width: number; backgroundColor: string }
   sections: any
+  sections2: any
   structure: any
   addSection: (rowId: string) => void
+  addSection2: (id: string, direction: string, type: string) => void
   changeDragSection: (dragSection: boolean) => void
   changeDragRow: (dragRow: boolean) => void
   changeGeneralWidth: (width: number) => void
   changeGeneralBackgroundColor: (backgroundColor: string) => void
+  changeChildType: (id: string, type: string) => void
 }
 
 const Match = {
@@ -21,6 +24,13 @@ const Match = {
   "4": ["25%", "25%", "25%", "25%"],
   "1/3": ["33.33%", "66.67%"],
   "3/1": ["66.67%", "33.33%"],
+} as const
+
+const Pepe = {
+  "1": ["1"],
+  "2": ["2", "2"],
+  "3": ["3", "3", "3"],
+  "4": ["4", "4", "4", "4"],
 } as const
 
 const createColumn = (width: string) => ({
@@ -57,6 +67,12 @@ const createSection = (rows: number, columns: keyof typeof Match) => ({
   },
 })
 
+const createChildren = (columns: keyof typeof Pepe) => {
+  return Pepe[columns].map((column: string) => {
+    return { id: uuidv4(), type: undefined, column }
+  })
+}
+
 const sections = [
   { ...createSection(1, "1") },
   { ...createSection(2, "2") },
@@ -71,6 +87,13 @@ const initialState = {
   dragRow: false,
   generalOptions: { width: 600, backgroundColor: "#ffffff" },
   sections: sections,
+  sections2: [
+    {
+      id: uuidv4(),
+      type: "1",
+      children: createChildren("1"),
+    },
+  ],
   structure: {
     html: {
       lang: "es",
@@ -137,6 +160,28 @@ export const useEditorStore = create<EditorState>()((set) => ({
         sections: newSections,
       }
     }),
+  addSection2: (id: string, direction: string, type: string) =>
+    set((state) => {
+      const oldSections = state.sections2
+
+      const index = oldSections.findIndex((section: any) => section.id === id)
+      const newSections = [...oldSections]
+
+      if (direction === "up")
+        newSections.splice(index, 0, {
+          id: uuidv4(),
+          type,
+          children: createChildren(type as keyof typeof Pepe),
+        })
+      if (direction === "down")
+        newSections.splice(index + 1, 0, {
+          id: uuidv4(),
+          type,
+          children: createChildren(type as keyof typeof Pepe),
+        })
+
+      return { ...state, sections2: newSections }
+    }),
   changeGeneralWidth: (width: number) =>
     set((state) => {
       return { ...state, generalOptions: { ...state.generalOptions, width } }
@@ -148,5 +193,27 @@ export const useEditorStore = create<EditorState>()((set) => ({
         ...state,
         generalOptions: { ...state.generalOptions, backgroundColor },
       }
+    }),
+  changeChildType: (id: string, type: string) =>
+    set((state) => {
+      const sections = state.sections2.map((section: any) => {
+        const updatedChildren = section.children.map((child: any) => {
+          if (child.id === id) {
+            return {
+              id: uuidv4(),
+              type,
+              column: child.column,
+            }
+          }
+          return child
+        })
+
+        return {
+          ...section,
+          children: updatedChildren,
+        }
+      })
+
+      return { ...state, sections2: sections }
     }),
 }))

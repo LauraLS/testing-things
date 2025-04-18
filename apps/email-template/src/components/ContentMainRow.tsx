@@ -4,7 +4,7 @@ import ContentRowElement from "@/components/ContentRowElement.tsx";
 
 type ContentMainRowProps = {
   id: string;
-  variant: string;
+  section: any;
   onDrop: (
     event: DragEvent<HTMLDivElement>,
     id: string,
@@ -12,26 +12,17 @@ type ContentMainRowProps = {
   ) => void;
 };
 
-const v = {
-  "1": ["12"],
-  "2": ["6", "6"],
-  "3": ["4", "4", "4"],
-  "4": ["3", "3", "3", "3"],
-} as const;
-
-const Column = ({ variant }: PropsWithChildren<{ variant: string }>) => {};
-
 export default function ContentMainRow({
   id,
   onDrop,
-  variant,
+  section,
 }: PropsWithChildren<ContentMainRowProps>) {
   const dragSection = useEditorStore((state) => state.dragSection);
   const generalOptions = useEditorStore((state) => state.generalOptions);
   const [overUp, setOverUp] = useState(false);
   const [overDown, setOverDown] = useState(false);
 
-  const columns = v[variant as keyof typeof v] ?? ["12"];
+  const children = section.children;
 
   const handleDragOver = (
     event: DragEvent<HTMLDivElement>,
@@ -68,9 +59,10 @@ export default function ContentMainRow({
         style={{ width: generalOptions.width }}
         className="grid grid-cols-12 gap-x-2"
       >
-        {columns.map((column, index) => (
-          <ContentRowElement key={index} variant={variant} />
-        ))}
+        {children.map((child: { id: string }) => {
+          const { id } = child;
+          return <ContentRowElement key={id} child={child} />;
+        })}
       </div>
       {dragSection && (
         <div className="flex flex-col w-full h-full absolute top-0 left-0 border border-dashed border-black">
