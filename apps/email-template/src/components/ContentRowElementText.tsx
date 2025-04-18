@@ -1,12 +1,15 @@
 import { cn } from "@/libs/utils.ts";
+import type { Child } from "@/stores/editor-store";
 import type { PropsWithChildren } from "react";
 
 type ContentRowElementTextProps = {
   className?: string;
+  child: Child;
 };
 
 export default function ContentRowElementText({
   className,
+  child,
 }: PropsWithChildren<ContentRowElementTextProps>) {
   const f = () => {
     console.log("Focus");
