@@ -1,11 +1,11 @@
 import { type DragEvent, type PropsWithChildren, useState } from "react";
-import { useEditorStore } from "@/stores/editor-store.ts";
+import { type Child, useEditorStore } from "@/stores/editor-store.ts";
 import ContentRowElementEmpty from "@/components/ContentRowElementEmpty.tsx";
 import ContentRowElementText from "@/components/ContentRowElementText.tsx";
 import ContentRowElementImage from "@/components/ContentRowElementImage.tsx";
 
 type ContentElementRowProps = {
-  child: any;
+  child: Child;
 };
 
 const getGridSpan = (variant: any) => {

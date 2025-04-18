@@ -1,12 +1,24 @@
 import { create } from "zustand"
 import { v4 as uuidv4 } from "uuid"
 
+export type Child = {
+  id: string
+  type: string | undefined
+  column: string
+}
+
+export type Section2 = {
+  id: string
+  type: string
+  children: Child[]
+}
+
 interface EditorState {
   dragSection: boolean
   dragRow: boolean
   generalOptions: { width: number; backgroundColor: string }
   sections: any
-  sections2: any
+  sections2: Section2[]
   structure: any
   addSection: (rowId: string) => void
   addSection2: (id: string, direction: string, type: string) => void
@@ -67,7 +79,7 @@ const createSection = (rows: number, columns: keyof typeof Match) => ({
   },
 })
 
-const createChildren = (columns: keyof typeof Pepe) => {
+const createChildren = (columns: keyof typeof Pepe): Child[] => {
   return Pepe[columns].map((column: string) => {
     return { id: uuidv4(), type: undefined, column }
   })

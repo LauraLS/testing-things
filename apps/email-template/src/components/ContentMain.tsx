@@ -24,7 +24,7 @@ export default function ContentMain() {
       style={{ backgroundColor: generalOptions.backgroundColor }}
       className="w-full"
     >
-      {sections2.map((section: any) => {
+      {sections2.map((section) => {
         const { id } = section;
         return (
           <ContentMainRow

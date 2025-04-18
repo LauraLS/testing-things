@@ -1,10 +1,10 @@
 import { type DragEvent, type PropsWithChildren, useState } from "react";
-import { useEditorStore } from "@/stores/editor-store.ts";
+import { useEditorStore, type Section2 } from "@/stores/editor-store.ts";
 import ContentRowElement from "@/components/ContentRowElement.tsx";
 
 type ContentMainRowProps = {
   id: string;
-  section: any;
+  section: Section2;
   onDrop: (
     event: DragEvent<HTMLDivElement>,
     id: string,
@@ -59,7 +59,7 @@ export default function ContentMainRow({
         style={{ width: generalOptions.width }}
         className="grid grid-cols-12 gap-x-2"
       >
-        {children.map((child: { id: string }) => {
+        {children.map((child) => {
           const { id } = child;
           return <ContentRowElement key={id} child={child} />;
         })}
