@@ -1,0 +1,38 @@
+import ContentMain from "@/components/ContentMain";
+import AsideMenu from "@/components/AsideMenu";
+import { useEditorStore } from "@/stores/editor-store.ts";
+
+export default function App() {
+  const onFocusElement = useEditorStore((state) => state.onFocusElement);
+
+  const onClickHandler = (event: any) => {
+    const id = event.target.id;
+    if (!id) return;
+    if (!id.startsWith("row-") && !id.startsWith("section-")) return;
+    const [type, ...elementId] = id.split("-");
+    onFocusElement(elementId.join("-"), type);
+  };
+
+  const onMouseOverHandler = (event: any) => {};
+
+  return (
+    <div
+      onMouseOver={onMouseOverHandler}
+      onClick={onClickHandler}
+      className="grid grid-cols-12 w-full gap-2"
+    >
+      <header className="col-span-12 w-full bg-gray-300 p-4">
+        <nav className="flex flex-row gap-2 items-center">
+          <a href="/">Home</a>
+          <p>Version 2</p>
+        </nav>
+      </header>
+      <section className="col-span-9">
+        <ContentMain />
+      </section>
+      <section className="col-span-3 sticky self-start top-2">
+        <AsideMenu />
+      </section>
+    </div>
+  );
+}

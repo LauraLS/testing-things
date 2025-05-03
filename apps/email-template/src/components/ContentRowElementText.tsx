@@ -1,6 +1,6 @@
 import { cn } from "@/libs/utils.ts";
-import type { Child } from "@/stores/editor-store";
-import type { PropsWithChildren } from "react";
+import { type Child, useEditorStore } from "@/stores/editor-store";
+import { type PropsWithChildren, useState } from "react";
 
 type ContentRowElementTextProps = {
   className?: string;
@@ -11,16 +11,25 @@ export default function ContentRowElementText({
   className,
   child,
 }: PropsWithChildren<ContentRowElementTextProps>) {
-  const f = () => {
-    console.log("Focus");
-  };
+  const focusRow = useEditorStore((state) => state.focusRow);
+  const isFocused = focusRow?.id === child.id;
 
   return (
-    <div className={cn("hover:bg-gray-100", className)}>
+    <div
+      id={`row-${child.id}`}
+      className={cn(
+        `${isFocused ? "border-violet-500" : "border-transparent"} hover:bg-red-100 w-full p-2.5 border-2`,
+        className,
+      )}
+    >
       <p
-        onFocus={f}
+        style={{
+          fontSize: child.style.fontSize,
+          color: child.style.color,
+          fontWeight: child.style.fontWeight,
+        }}
         contentEditable={true}
-        className=""
+        className="focus-visible:outline-none"
         suppressContentEditableWarning={true}
       >
         New paragraph

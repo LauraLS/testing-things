@@ -1,24 +1,10 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import AsideMenu from "@/components/AsideMenu";
-import ContentMain from "@/components/ContentMain";
+import App from "@/components/App";
 ---
 
 <Layout>
-  <div class="grid grid-cols-12 w-full gap-2">
-    <header class="col-span-12 w-full bg-gray-300 p-4">
-      <nav class="flex flex-row gap-2 items-center">
-        <a href="/">Home</a>
-        <p>Version 2</p>
-      </nav>
-    </header>
-    <section class="col-span-9">
-      <ContentMain client:idle />
-    </section>
-    <section class="col-span-3 sticky self-start top-2">
-      <AsideMenu client:idle />
-    </section>
-  </div>
+  <App client:idle />
 </Layout>
 
 <style></style>

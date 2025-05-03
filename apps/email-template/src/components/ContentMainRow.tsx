@@ -19,6 +19,8 @@ export default function ContentMainRow({
 }: PropsWithChildren<ContentMainRowProps>) {
   const dragSection = useEditorStore((state) => state.dragSection);
   const generalOptions = useEditorStore((state) => state.generalOptions);
+  const focusSection = useEditorStore((state) => state.focusSection);
+  const isFocused = focusSection?.id === section.id;
   const [overUp, setOverUp] = useState(false);
   const [overDown, setOverDown] = useState(false);
 
@@ -54,7 +56,10 @@ export default function ContentMainRow({
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full h-32 hover:border-2 hover:border-black relative">
+    <div
+      id={`section-${section.id}`}
+      className={`${isFocused ? "border-violet-500" : "border-transparent"} flex flex-col justify-center items-center w-full h-32 border-2 hover:border-black relative`}
+    >
       <div
         style={{ width: generalOptions.width }}
         className="grid grid-cols-12 gap-x-2"

@@ -44,13 +44,11 @@ export default function ContentRowElementEmpty({
   };
 
   return (
-    <div className={`${getBorderStyle(dragRow)} relative w-full`}>
-      <div
-        className={cn(
-          "flex flex-col justify-center items-center h-20 bg-gray-300",
-          className,
-        )}
-      >
+    <div
+      id={`row-${child.id}`}
+      className={cn("relative w-full", getBorderStyle(dragRow), className)}
+    >
+      <div className="flex flex-col justify-center items-center h-20 bg-gray-300">
         <p className="text-center">Drop content blocks here</p>
       </div>
       {dragRow && (

@@ -13,6 +13,7 @@ export default function ContentRowElementImage({
 }: PropsWithChildren<ContentRowElementImageProps>) {
   return (
     <div
+      id={`row-${child.id}`}
       className={cn(
         "flex flex-col justify-center items-center h-20 bg-gray-300",
         className,

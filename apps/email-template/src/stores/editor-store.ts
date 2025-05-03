@@ -1,10 +1,18 @@
 import { create } from "zustand"
 import { v4 as uuidv4 } from "uuid"
 
+export type ChildStyle = {
+  fontSize: number
+  color: string
+  fontWeight: string
+}
+
 export type Child = {
   id: string
   type: string | undefined
+  focus: boolean
   column: string
+  style: ChildStyle
 }
 
 export type Section2 = {
@@ -20,6 +28,10 @@ interface EditorState {
   sections: any
   sections2: Section2[]
   structure: any
+  focusRow: Child | undefined
+  focusSection: Section2 | undefined
+  onFocusRow: (row: Child | undefined) => void
+  onFocusElement: (id: string, type: string) => void
   addSection: (rowId: string) => void
   addSection2: (id: string, direction: string, type: string) => void
   changeDragSection: (dragSection: boolean) => void
@@ -27,6 +39,7 @@ interface EditorState {
   changeGeneralWidth: (width: number) => void
   changeGeneralBackgroundColor: (backgroundColor: string) => void
   changeChildType: (id: string, type: string) => void
+  changeChildStyle: (id: string, style: ChildStyle) => void
 }
 
 const Match = {
@@ -81,7 +94,13 @@ const createSection = (rows: number, columns: keyof typeof Match) => ({
 
 const createChildren = (columns: keyof typeof Pepe): Child[] => {
   return Pepe[columns].map((column: string) => {
-    return { id: uuidv4(), type: undefined, column }
+    return {
+      id: uuidv4(),
+      type: undefined,
+      focus: false,
+      column,
+      style: { fontSize: 14, color: "#000000", fontWeight: "normal" },
+    }
   })
 }
 
@@ -99,11 +118,21 @@ const initialState = {
   dragRow: false,
   generalOptions: { width: 600, backgroundColor: "#ffffff" },
   sections: sections,
+  focusRow: undefined,
+  focusSection: undefined,
   sections2: [
     {
-      id: uuidv4(),
+      id: "c7157f30-bce2-4ea6-86df-a4fc2387654b",
       type: "1",
-      children: createChildren("1"),
+      children: [
+        {
+          id: "054db709-ddaf-4758-9247-551c2f7381b5",
+          type: undefined,
+          focus: false,
+          column: "1",
+          style: { fontSize: 14, color: "#000000", fontWeight: "normal" },
+        },
+      ],
     },
   ],
   structure: {
@@ -194,6 +223,27 @@ export const useEditorStore = create<EditorState>()((set) => ({
 
       return { ...state, sections2: newSections }
     }),
+  onFocusRow: (row: Child | undefined) =>
+    set((state) => {
+      return { ...state, focusRow: row }
+    }),
+  onFocusElement: (id: string, type: string) =>
+    set((state) => {
+      if (type === "row") {
+        const child = state.sections2
+          .map((section: any) => section.children)
+          .flat()
+          .find((child: any) => child.id === id)
+        return { ...state, focusRow: child, focusSection: undefined }
+      }
+      if (type === "section") {
+        const section = state.sections2.find(
+          (section: any) => section.id === id,
+        )
+        return { ...state, focusSection: section, focusRow: undefined }
+      }
+      return { ...state, focusRow: undefined, focusSection: undefined }
+    }),
   changeGeneralWidth: (width: number) =>
     set((state) => {
       return { ...state, generalOptions: { ...state.generalOptions, width } }
@@ -215,6 +265,7 @@ export const useEditorStore = create<EditorState>()((set) => ({
               id: uuidv4(),
               type,
               column: child.column,
+              style: child.style,
             }
           }
           return child
@@ -227,5 +278,33 @@ export const useEditorStore = create<EditorState>()((set) => ({
       })
 
       return { ...state, sections2: sections }
+    }),
+  changeChildStyle: (id: string, style: ChildStyle) =>
+    set((state) => {
+      const sections = state.sections2.map((section: any) => {
+        const updatedChildren = section.children.map((child: any) => {
+          if (child.id === id) {
+            return {
+              ...child,
+              style: style,
+            }
+          }
+          return child
+        })
+
+        return {
+          ...section,
+          children: updatedChildren,
+        }
+      })
+
+      return {
+        ...state,
+        sections2: sections,
+        focusRow: state.sections2
+          .map((section: any) => section.children)
+          .flat()
+          .find((child: any) => child.id === id),
+      }
     }),
 }))

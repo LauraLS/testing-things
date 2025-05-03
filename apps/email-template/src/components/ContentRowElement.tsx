@@ -15,16 +15,19 @@ const getGridSpan = (variant: any) => {
   return "col-span-12";
 };
 
-function ElementComponent({ child }: PropsWithChildren<{ child: Child }>) {
+function ElementComponent({
+  child,
+  className,
+}: PropsWithChildren<{ child: Child; className: string }>) {
   const { type } = child;
 
   switch (type) {
     case "text":
-      return <ContentRowElementText child={child} />;
+      return <ContentRowElementText child={child} className={className} />;
     case "image":
-      return <ContentRowElementImage child={child} />;
+      return <ContentRowElementImage child={child} className={className} />;
     default:
-      return <ContentRowElementEmpty child={child} />;
+      return <ContentRowElementEmpty child={child} className={className} />;
   }
 }
 
@@ -32,8 +35,9 @@ export default function ContentRowElement({
   child,
 }: PropsWithChildren<ContentElementRowProps>) {
   return (
-    <div className={`${getGridSpan(child.column)} relative w-full`}>
-      <ElementComponent child={child} />
-    </div>
+    <ElementComponent
+      child={child}
+      className={`${getGridSpan(child.column)} relative w-full`}
+    />
   );
 }
