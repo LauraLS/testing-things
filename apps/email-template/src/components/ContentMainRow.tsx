@@ -58,7 +58,7 @@ export default function ContentMainRow({
   return (
     <div
       id={`section-${section.id}`}
-      className={`${isFocused ? "border-violet-500" : "border-transparent"} flex flex-col justify-center items-center w-full h-32 border-2 hover:border-black relative`}
+      className={`${isFocused ? "border-violet-500" : "border-transparent"} flex flex-col justify-center items-center w-full border-2 hover:border-black relative`}
     >
       <div
         style={{ width: generalOptions.width }}

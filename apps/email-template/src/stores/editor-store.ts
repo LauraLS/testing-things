@@ -5,6 +5,7 @@ export type ChildStyle = {
   fontSize: number
   color: string
   fontWeight: string
+  url?: string
 }
 
 export type Child = {
@@ -301,7 +302,7 @@ export const useEditorStore = create<EditorState>()((set) => ({
       return {
         ...state,
         sections2: sections,
-        focusRow: state.sections2
+        focusRow: sections
           .map((section: any) => section.children)
           .flat()
           .find((child: any) => child.id === id),

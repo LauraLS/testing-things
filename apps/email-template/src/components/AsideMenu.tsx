@@ -9,6 +9,7 @@ import AsideMenuSectionDefault from "@/components/AsideMenuSectionDefault";
 import AsideMenuRowText from "@/components/AsideMenuRowText.tsx";
 import AsideMenuRowDefault from "@/components/AsideMenuRowDefault.tsx";
 import AsideMenuGeneralDefault from "@/components/AsideMenuGeneralDefault.tsx";
+import AsideMenuRowImage from "@/components/AsideMenuRowImage.tsx";
 
 type MenuSectionElementProps = {
   section: Section2 | undefined;
@@ -29,7 +30,7 @@ function MenuRowElement({ child }: PropsWithChildren<MenuRowElementProps>) {
     case "text":
       return <AsideMenuRowText child={child} />;
     case "image":
-      return <AsideMenuRowDefault />;
+      return <AsideMenuRowImage child={child} />;
     default:
       return <AsideMenuRowDefault />;
   }
