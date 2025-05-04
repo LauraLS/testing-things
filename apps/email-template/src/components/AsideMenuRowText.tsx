@@ -1,7 +1,7 @@
 import { type Child, useEditorStore } from "@/stores/editor-store.ts";
 import type { PropsWithChildren } from "react";
-import { Slider } from "@/components/ui/slider.tsx";
 import StepperInput from "@/components/ui/StepperInput.tsx";
+import TextAlign from "@/components/ui/TextAlign.tsx";
 
 type AsideMenuSectionTextProps = {
   child: Child;
@@ -12,7 +12,7 @@ export default function AsideMenuRowText({
 }: PropsWithChildren<AsideMenuSectionTextProps>) {
   const changeChildStyle = useEditorStore((state) => state.changeChildStyle);
   const { style } = child;
-  const { fontSize, color, lineHeight } = style;
+  const { fontSize, color, lineHeight, textAlign } = style;
 
   const onChangeFontSize = (value: number) => {
     changeChildStyle(child.id, { ...style, fontSize: value });
@@ -28,6 +28,12 @@ export default function AsideMenuRowText({
 
   const onChangeParagraphSpacing = (value: number) => {
     changeChildStyle(child.id, { ...style, lineHeight: value });
+  };
+
+  const onChangeTextAlign = (
+    value: "left" | "right" | "center" | "justify",
+  ) => {
+    changeChildStyle(child.id, { ...style, textAlign: value });
   };
 
   return (
@@ -79,6 +85,10 @@ export default function AsideMenuRowText({
           className="w-32"
           onChange={(value) => onChangeParagraphSpacing(value)}
         />
+      </div>
+      <div className="flex items-center justify-between gap-4 w-full col-span-4 border-b border-black pb-4">
+        <p>Text align</p>
+        <TextAlign className={textAlign} onChange={onChangeTextAlign} />
       </div>
     </>
   );

@@ -14,7 +14,7 @@ export default function AsideMenuRowDefault() {
     );
   };
 
-  const handleDragRowEnd = (event: DragEvent<HTMLDivElement>) => {
+  const handleDragRowEnd = () => {
     changeDragRow(false);
   };
 

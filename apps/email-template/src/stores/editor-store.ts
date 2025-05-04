@@ -7,6 +7,7 @@ export type ChildStyle = {
   fontWeight: string
   url?: string
   lineHeight: number
+  textAlign: "left" | "right" | "center" | "justify"
 }
 
 export type Child = {
@@ -18,7 +19,7 @@ export type Child = {
   style: ChildStyle
 }
 
-export type Section2 = {
+export type Section = {
   id: string
   type: string
   children: Child[]
@@ -28,15 +29,13 @@ interface EditorState {
   dragSection: boolean
   dragRow: boolean
   generalOptions: { width: number; backgroundColor: string }
-  sections: any
-  sections2: Section2[]
+  sections: Section[]
   structure: any
   focusRow: Child | undefined
-  focusSection: Section2 | undefined
+  focusSection: Section | undefined
   onFocusRow: (row: Child | undefined) => void
   onFocusElement: (id: string, type: string) => void
-  addSection: (rowId: string) => void
-  addSection2: (id: string, direction: string, type: string) => void
+  addSection: (id: string, direction: string, type: string) => void
   changeDragSection: (dragSection: boolean) => void
   changeDragRow: (dragRow: boolean) => void
   changeGeneralWidth: (width: number) => void
@@ -46,107 +45,48 @@ interface EditorState {
   changeChildValue: (id: string, value: string) => void
 }
 
-const Match = {
-  "1": ["100%"],
-  "2": ["50%", "50%"],
-  "3": ["33.33%", "33.33%", "33.33%"],
-  "4": ["25%", "25%", "25%", "25%"],
-  "1/3": ["33.33%", "66.67%"],
-  "3/1": ["66.67%", "33.33%"],
-} as const
-
-const Pepe = {
+const MatchColumns = {
   "1": ["1"],
   "2": ["2", "2"],
   "3": ["3", "3", "3"],
   "4": ["4", "4", "4", "4"],
 } as const
 
-const createColumn = (width: string) => ({
-  column: {
+const createChild = (column: string): Child => {
+  return {
     id: uuidv4(),
+    type: undefined,
+    focus: false,
+    column,
+    value: "",
     style: {
-      textAlign: "center",
-      backgroundColor: "white",
-      width,
+      fontSize: 14,
+      color: "#000000",
+      fontWeight: "normal",
+      lineHeight: 1.2,
+      textAlign: "left",
     },
-    children: [
-      {
-        text: "Texto 1",
-      },
-    ],
-  },
-})
-
-const createRow = (columns: keyof typeof Match) => ({
-  row: {
-    id: uuidv4(),
-    style: {
-      backgroundColor: "blue",
-    },
-    children: Match[columns].map((width: string) => createColumn(width)),
-  },
-})
-
-const createSection = (rows: number, columns: keyof typeof Match) => ({
-  section: {
-    id: uuidv4(),
-    style: {},
-    children: [{ ...createRow(columns) }],
-  },
-})
-
-const createChildren = (columns: keyof typeof Pepe): Child[] => {
-  return Pepe[columns].map((column: string) => {
-    return {
-      id: uuidv4(),
-      type: undefined,
-      focus: false,
-      column,
-      value: "",
-      style: {
-        fontSize: 14,
-        color: "#000000",
-        fontWeight: "normal",
-        lineHeight: 1.2,
-      },
-    }
-  })
+  }
 }
 
-const sections = [
-  { ...createSection(1, "1") },
-  { ...createSection(2, "2") },
-  { ...createSection(3, "3") },
-  { ...createSection(4, "4") },
-  { ...createSection(1, "1/3") },
-  { ...createSection(3, "3/1") },
-]
+const createChildren = (columns: keyof typeof MatchColumns): Child[] => {
+  return MatchColumns[columns].map(createChild)
+}
 
 const initialState = {
   dragSection: false,
   dragRow: false,
   generalOptions: { width: 600, backgroundColor: "#ffffff" },
-  sections: sections,
   focusRow: undefined,
   focusSection: undefined,
-  sections2: [
+  sections: [
     {
       id: "c7157f30-bce2-4ea6-86df-a4fc2387654b",
       type: "1",
       children: [
         {
+          ...createChild("1"),
           id: "054db709-ddaf-4758-9247-551c2f7381b5",
-          type: undefined,
-          focus: false,
-          column: "1",
-          value: "",
-          style: {
-            fontSize: 14,
-            color: "#000000",
-            fontWeight: "normal",
-            lineHeight: 1.2,
-          },
         },
       ],
     },
@@ -168,7 +108,7 @@ const initialState = {
               {
                 container: {
                   style: {},
-                  children: sections,
+                  children: [],
                 },
               },
             ],
@@ -184,42 +124,21 @@ export const useEditorStore = create<EditorState>()((set) => ({
 
   changeDragSection: (dragSection: boolean) =>
     set((state) => {
-      return { ...state, dragSection }
+      return {
+        ...state,
+        dragSection,
+      }
     }),
   changeDragRow: (dragRow: boolean) =>
     set((state) => {
-      return { ...state, dragRow }
-    }),
-  addSection: (rowId: string) =>
-    set((state) => {
-      const newSections = []
-
-      for (const element of state.sections) {
-        const newChildren = []
-        const { section } = element
-        const { children } = section
-
-        for (const child of children) {
-          const { row } = child
-          const { id: childId } = row
-          newChildren.push(child)
-          if (childId === rowId) {
-            const newRow = createRow("1")
-            newChildren.push(newRow)
-          }
-        }
-
-        newSections.push({ section: { ...section, children: newChildren } })
-      }
-
       return {
         ...state,
-        sections: newSections,
+        dragRow,
       }
     }),
-  addSection2: (id: string, direction: string, type: string) =>
+  addSection: (id: string, direction: string, type: string) =>
     set((state) => {
-      const oldSections = state.sections2
+      const oldSections = state.sections
 
       const index = oldSections.findIndex((section: any) => section.id === id)
       const newSections = [...oldSections]
@@ -228,45 +147,48 @@ export const useEditorStore = create<EditorState>()((set) => ({
         newSections.splice(index, 0, {
           id: uuidv4(),
           type,
-          children: createChildren(type as keyof typeof Pepe),
+          children: createChildren(type as keyof typeof MatchColumns),
         })
       if (direction === "down")
         newSections.splice(index + 1, 0, {
           id: uuidv4(),
           type,
-          children: createChildren(type as keyof typeof Pepe),
+          children: createChildren(type as keyof typeof MatchColumns),
         })
 
-      return { ...state, sections2: newSections }
+      return { ...state, sections: newSections }
     }),
   onFocusRow: (row: Child | undefined) =>
     set((state) => {
-      return { ...state, focusRow: row }
+      return {
+        ...state,
+        focusRow: row,
+      }
     }),
   onFocusElement: (id: string, type: string) =>
     set((state) => {
       if (type === "row") {
-        const child = state.sections2
+        const child = state.sections
           .map((section: any) => section.children)
           .flat()
           .find((child: any) => child.id === id)
         return { ...state, focusRow: child, focusSection: undefined }
       }
       if (type === "section") {
-        const section = state.sections2.find(
-          (section: any) => section.id === id,
-        )
+        const section = state.sections.find((section: any) => section.id === id)
         return { ...state, focusSection: section, focusRow: undefined }
       }
       return { ...state, focusRow: undefined, focusSection: undefined }
     }),
   changeGeneralWidth: (width: number) =>
     set((state) => {
-      return { ...state, generalOptions: { ...state.generalOptions, width } }
+      return {
+        ...state,
+        generalOptions: { ...state.generalOptions, width },
+      }
     }),
   changeGeneralBackgroundColor: (backgroundColor: string) =>
     set((state) => {
-      console.log({ backgroundColor })
       return {
         ...state,
         generalOptions: { ...state.generalOptions, backgroundColor },
@@ -274,7 +196,7 @@ export const useEditorStore = create<EditorState>()((set) => ({
     }),
   changeChildType: (id: string, type: string) =>
     set((state) => {
-      const sections = state.sections2.map((section: any) => {
+      const sections = state.sections.map((section: any) => {
         const updatedChildren = section.children.map((child: any) => {
           if (child.id === id) {
             return {
@@ -293,12 +215,12 @@ export const useEditorStore = create<EditorState>()((set) => ({
         }
       })
 
-      return { ...state, sections2: sections }
+      return { ...state, sections: sections }
     }),
   changeChildStyle: (id: string, style: ChildStyle) =>
     set((state) => {
-      const sections = state.sections2.map((section: any) => {
-        const updatedChildren = section.children.map((child: any) => {
+      const sections = state.sections.map((section: Section) => {
+        const updatedChildren = section.children.map((child: Child) => {
           if (child.id === id) {
             return {
               ...child,
@@ -316,16 +238,16 @@ export const useEditorStore = create<EditorState>()((set) => ({
 
       return {
         ...state,
-        sections2: sections,
+        sections: sections,
         focusRow: sections
-          .map((section: any) => section.children)
+          .map((section: Section) => section.children)
           .flat()
-          .find((child: any) => child.id === id),
+          .find((child: Child) => child.id === id),
       }
     }),
   changeChildValue: (id: string, value: string) =>
     set((state) => {
-      const sections = state.sections2.map((section: any) => {
+      const sections = state.sections.map((section: any) => {
         const updatedChildren = section.children.map((child: any) => {
           if (child.id === id) {
             return {
@@ -344,7 +266,7 @@ export const useEditorStore = create<EditorState>()((set) => ({
 
       return {
         ...state,
-        sections2: sections,
+        sections: sections,
         focusRow: sections
           .map((section: any) => section.children)
           .flat()

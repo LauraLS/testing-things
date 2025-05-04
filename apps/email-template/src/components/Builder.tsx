@@ -13,11 +13,6 @@ const colSpanVariants = {
 
 export default function Builder() {
   const sections = useEditorStore((state) => state.sections);
-  const addSection = useEditorStore((state) => state.addSection);
-
-  const handleAddElement = (id: string) => {
-    addSection(id);
-  };
 
   return (
     <div className="bg-white">

@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   type Child,
-  type Section2,
+  type Section,
   useEditorStore,
 } from "@/stores/editor-store.ts";
 import { type PropsWithChildren } from "react";
@@ -12,7 +12,7 @@ import AsideMenuGeneralDefault from "@/components/AsideMenuGeneralDefault.tsx";
 import AsideMenuRowImage from "@/components/AsideMenuRowImage.tsx";
 
 type MenuSectionElementProps = {
-  section: Section2 | undefined;
+  section: Section | undefined;
 };
 
 type MenuRowElementProps = {

@@ -13,7 +13,7 @@ export default function AsideMenuSectionDefault() {
     );
   };
 
-  const handleDragSectionEnd = (event: DragEvent<HTMLDivElement>) => {
+  const handleDragSectionEnd = () => {
     changeDragSection(false);
   };
 

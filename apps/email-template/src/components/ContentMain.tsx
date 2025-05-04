@@ -4,8 +4,8 @@ import { useEditorStore } from "@/stores/editor-store.ts";
 
 export default function ContentMain() {
   const generalOptions = useEditorStore((state) => state.generalOptions);
-  const addSection2 = useEditorStore((state) => state.addSection2);
-  const sections2 = useEditorStore((state) => state.sections2);
+  const addSection = useEditorStore((state) => state.addSection);
+  const sections = useEditorStore((state) => state.sections);
 
   const handleDrop = (
     event: DragEvent<HTMLDivElement>,
@@ -16,7 +16,7 @@ export default function ContentMain() {
     const type = JSON.parse(event.dataTransfer.getData("object"))
       .type as string;
 
-    addSection2(id, direction, type);
+    addSection(id, direction, type);
   };
 
   return (
@@ -24,7 +24,7 @@ export default function ContentMain() {
       style={{ backgroundColor: generalOptions.backgroundColor }}
       className="w-full"
     >
-      {sections2.map((section) => {
+      {sections.map((section) => {
         const { id } = section;
         return (
           <ContentMainRow

@@ -1,6 +1,6 @@
 import { cn } from "@/libs/utils.ts";
 import { type Child, useEditorStore } from "@/stores/editor-store";
-import { type PropsWithChildren, useState } from "react";
+import { type PropsWithChildren } from "react";
 
 type ContentRowElementTextProps = {
   className?: string;
@@ -14,6 +14,9 @@ export default function ContentRowElementText({
   const changeChildValue = useEditorStore((state) => state.changeChildValue);
   const focusRow = useEditorStore((state) => state.focusRow);
   const isFocused = focusRow?.id === child.id;
+
+  const { style } = child;
+  const { color, fontSize, fontWeight, lineHeight, textAlign } = style;
 
   const onBlurHandler = (value: string) => {
     changeChildValue(child.id, value);
@@ -29,10 +32,11 @@ export default function ContentRowElementText({
     >
       <p
         style={{
-          fontSize: child.style.fontSize,
-          color: child.style.color,
-          fontWeight: child.style.fontWeight,
-          lineHeight: child.style.lineHeight,
+          fontSize: fontSize,
+          color: color,
+          fontWeight: fontWeight,
+          lineHeight: lineHeight,
+          textAlign: textAlign,
         }}
         contentEditable={true}
         className="focus-visible:outline-none"

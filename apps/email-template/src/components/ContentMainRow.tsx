@@ -1,10 +1,10 @@
 import { type DragEvent, type PropsWithChildren, useState } from "react";
-import { useEditorStore, type Section2 } from "@/stores/editor-store.ts";
+import { useEditorStore, type Section } from "@/stores/editor-store.ts";
 import ContentRowElement from "@/components/ContentRowElement.tsx";
 
 type ContentMainRowProps = {
   id: string;
-  section: Section2;
+  section: Section;
   onDrop: (
     event: DragEvent<HTMLDivElement>,
     id: string,
