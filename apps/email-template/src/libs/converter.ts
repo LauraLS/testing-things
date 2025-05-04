@@ -16,7 +16,10 @@ import {
 } from "@react-email/components"
 import ReactDOMServer from "react-dom/server"
 import React from "react"
-import type { Section as SectionType } from "@/stores/editor-store.ts"
+import type {
+  DocumentStyle,
+  Section as SectionType,
+} from "@/stores/editor-store.ts"
 
 type ComponentKey = keyof typeof componentsMap
 
@@ -91,7 +94,7 @@ const createComplexElement = (json: ComplexJSON): any => {
 const createElements = (json: JSON) => {
   const [type] = Object.keys(json)
 
-  return type === "text"
+  return ["text", "heading"].includes(type)
     ? createSimpleElement(json as SimpleJSON)
     : createComplexElement(json as ComplexJSON)
 }
@@ -100,7 +103,10 @@ export const convertToHtml = (json: JSON) => {
   return ReactDOMServer.renderToString(createElements(json))
 }
 
-export const convertToStructure = (json: SectionType[]): JSON => {
+export const convertToStructure = (
+  json: SectionType[],
+  documentStyle: DocumentStyle,
+): JSON => {
   const children = json.map((section): JSON => {
     const children = section.children.filter((child) => child.type) ?? []
 
@@ -109,7 +115,39 @@ export const convertToStructure = (json: SectionType[]): JSON => {
         id: section.id,
         style: {},
         children: children.map((child) => {
-          const { id, style, value } = child
+          const { id, style, value, type, width } = child
+          if (type === "image") {
+            return {
+              column: {
+                style,
+                children: [
+                  {
+                    img: {
+                      src: value,
+                      width: `${width}%`,
+                      style: { display: "inline-block" },
+                      id,
+                    },
+                  },
+                ],
+              },
+            }
+          }
+          if (type === "heading") {
+            return {
+              column: {
+                children: [
+                  {
+                    heading: {
+                      id,
+                      style,
+                      value,
+                    },
+                  },
+                ],
+              },
+            }
+          }
           return {
             column: {
               children: [
@@ -138,7 +176,7 @@ export const convertToStructure = (json: SectionType[]): JSON => {
         },
         {
           body: {
-            style: {},
+            style: documentStyle,
             children: [
               {
                 container: {

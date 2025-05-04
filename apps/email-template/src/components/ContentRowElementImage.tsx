@@ -18,12 +18,20 @@ export default function ContentRowElementImage({
     <div
       id={`row-${child.id}`}
       className={cn(
-        `${isFocused ? "border-violet-500" : "border-transparent"} flex flex-col justify-center items-center bg-gray-300 border-2`,
+        "border-2",
+        isFocused ? "border-violet-500" : "border-transparent",
+        child.value ? "" : "bg-gray-300",
         className,
       )}
+      style={{ textAlign: child.style.textAlign }}
     >
-      {child.style.url ? (
-        <img src={child.style.url} alt="Imagen del block" className="" />
+      {child.value ? (
+        <img
+          width={`${child.width}%`}
+          src={child.value}
+          alt="Imagen del block"
+          className="inline-block"
+        />
       ) : (
         <p className="text-center">Esto es un block de imagen</p>
       )}

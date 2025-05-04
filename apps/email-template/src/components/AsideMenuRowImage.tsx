@@ -1,5 +1,7 @@
 import { type PropsWithChildren, useState } from "react";
 import { type Child, useEditorStore } from "@/stores/editor-store.ts";
+import StepperInput from "@/components/ui/StepperInput.tsx";
+import ImageAlign from "@/components/ui/ImageAlign.tsx";
 
 type AsideMenuSectionImageProps = {
   child: Child;
@@ -8,13 +10,27 @@ type AsideMenuSectionImageProps = {
 export default function AsideMenuRowImage({
   child,
 }: PropsWithChildren<AsideMenuSectionImageProps>) {
+  const { value, width, style } = child;
+  const { textAlign } = style;
+  const changeChildValue = useEditorStore((state) => state.changeChildValue);
+  const changeChildWidth = useEditorStore((state) => state.changeChildWidth);
   const changeChildStyle = useEditorStore((state) => state.changeChildStyle);
-  const { style } = child;
-  const { url } = style;
-  const [urlState, setUrlState] = useState(url);
+  const [inputUrlValue, setInputUrlValue] = useState<string>(value ?? "");
 
-  const onChangeUrl = (value: string) => {
-    changeChildStyle(child.id, { ...style, url: value });
+  const onBlurUrlHandle = () => {
+    changeChildValue(child.id, inputUrlValue);
+  };
+
+  const onChangeUrlHandle = (value: string) => {
+    setInputUrlValue(value);
+  };
+
+  const onChangeWidthHandle = (value: number) => {
+    changeChildWidth(child.id, value);
+  };
+
+  const onChangeAlignHandle = (value: "left" | "right" | "center") => {
+    changeChildStyle(child.id, { ...style, textAlign: value });
   };
 
   return (
@@ -25,11 +41,28 @@ export default function AsideMenuRowImage({
           <input
             className="focus:outline-0 w-full"
             type="text"
-            value={urlState}
-            onChange={(event) => setUrlState(event.target.value)}
-            onBlur={(event) => onChangeUrl(event.target.value)}
+            value={inputUrlValue}
+            onChange={(event) => onChangeUrlHandle(event.target.value)}
+            onBlur={onBlurUrlHandle}
           />
         </div>
+      </div>
+      <div className="flex items-center justify-between gap-4 w-full col-span-4 border-b border-black pb-4">
+        <p>Width</p>
+        <StepperInput
+          value={width}
+          min={1}
+          max={100}
+          step={10}
+          onChange={(event) => onChangeWidthHandle(event)}
+        />
+      </div>
+      <div className="flex items-center justify-between gap-4 w-full col-span-4 border-b border-black pb-4">
+        <p>Align</p>
+        <ImageAlign
+          value={textAlign as "center" | "left" | "right"}
+          onChange={onChangeAlignHandle}
+        />
       </div>
     </>
   );

@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button.tsx";
 
 export default function App() {
   const onFocusElement = useEditorStore((state) => state.onFocusElement);
-  const sections2 = useEditorStore((state) => state.sections);
+  const sections = useEditorStore((state) => state.sections);
+  const documentStyle = useEditorStore((state) => state.documentStyle);
 
   const onClickHandler = (event: any) => {
     const id = event.target.id;
@@ -18,7 +19,10 @@ export default function App() {
   const onMouseOverHandler = () => {};
 
   const onClickDownloadButton = () => {
-    const body = [...sections2];
+    const body = {
+      sections: sections,
+      documentStyle: documentStyle,
+    };
 
     fetch("/api/render", {
       method: "POST",

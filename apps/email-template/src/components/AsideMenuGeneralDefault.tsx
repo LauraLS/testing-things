@@ -1,15 +1,19 @@
-import { Slider } from "@/components/ui/slider.tsx";
 import { useEditorStore } from "@/stores/editor-store.ts";
 import StepperInput from "@/components/ui/StepperInput.tsx";
 
 export default function AsideMenuGeneralDefault() {
-  const generalOptions = useEditorStore((state) => state.generalOptions);
-  const changeGeneralWidth = useEditorStore(
-    (state) => state.changeGeneralWidth,
+  const generalOptions = useEditorStore((state) => state.documentStyle);
+  const changeDocumentStyle = useEditorStore(
+    (state) => state.changeDocumentStyle,
   );
-  const changeGeneralBackgroundColor = useEditorStore(
-    (state) => state.changeGeneralBackgroundColor,
-  );
+
+  const changeWidthHandle = (value: number) => {
+    changeDocumentStyle({ ...generalOptions, width: value });
+  };
+
+  const changeBackgroundColorHandle = (value: string) => {
+    changeDocumentStyle({ ...generalOptions, backgroundColor: value });
+  };
 
   return (
     <>
@@ -21,7 +25,7 @@ export default function AsideMenuGeneralDefault() {
           max={900}
           step={10}
           className=""
-          onChange={(value) => changeGeneralWidth(value)}
+          onChange={changeWidthHandle}
         />
       </div>
       <div className="flex items-center justify-between gap-4">
@@ -31,7 +35,7 @@ export default function AsideMenuGeneralDefault() {
             type="color"
             value={generalOptions.backgroundColor}
             onChange={(event) =>
-              changeGeneralBackgroundColor(event.target.value)
+              changeBackgroundColorHandle(event.target.value)
             }
           />
           <input
@@ -39,7 +43,7 @@ export default function AsideMenuGeneralDefault() {
             value={generalOptions.backgroundColor}
             className="w-20 text-center focus:outline-0"
             onChange={(event) =>
-              changeGeneralBackgroundColor(event.target.value)
+              changeBackgroundColorHandle(event.target.value)
             }
           />
         </div>

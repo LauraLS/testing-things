@@ -3,7 +3,7 @@ import ContentMainRow from "@/components/ContentMainRow.tsx";
 import { useEditorStore } from "@/stores/editor-store.ts";
 
 export default function ContentMain() {
-  const generalOptions = useEditorStore((state) => state.generalOptions);
+  const generalOptions = useEditorStore((state) => state.documentStyle);
   const addSection = useEditorStore((state) => state.addSection);
   const sections = useEditorStore((state) => state.sections);
 

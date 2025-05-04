@@ -18,7 +18,7 @@ export default function ContentMainRow({
   section,
 }: PropsWithChildren<ContentMainRowProps>) {
   const dragSection = useEditorStore((state) => state.dragSection);
-  const generalOptions = useEditorStore((state) => state.generalOptions);
+  const generalOptions = useEditorStore((state) => state.documentStyle);
   const focusSection = useEditorStore((state) => state.focusSection);
   const isFocused = focusSection?.id === section.id;
   const [overUp, setOverUp] = useState(false);

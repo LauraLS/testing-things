@@ -5,7 +5,6 @@ export type ChildStyle = {
   fontSize: number
   color: string
   fontWeight: string
-  url?: string
   lineHeight: number
   textAlign: "left" | "right" | "center" | "justify"
 }
@@ -16,6 +15,7 @@ export type Child = {
   focus: boolean
   column: string
   value: string
+  width: number
   style: ChildStyle
 }
 
@@ -25,10 +25,16 @@ export type Section = {
   children: Child[]
 }
 
+export type DocumentStyle = {
+  width: number
+  backgroundColor: string
+  margin: string
+}
+
 interface EditorState {
   dragSection: boolean
   dragRow: boolean
-  generalOptions: { width: number; backgroundColor: string }
+  documentStyle: DocumentStyle
   sections: Section[]
   structure: any
   focusRow: Child | undefined
@@ -40,9 +46,11 @@ interface EditorState {
   changeDragRow: (dragRow: boolean) => void
   changeGeneralWidth: (width: number) => void
   changeGeneralBackgroundColor: (backgroundColor: string) => void
+  changeDocumentStyle: (style: DocumentStyle) => void
   changeChildType: (id: string, type: string) => void
   changeChildStyle: (id: string, style: ChildStyle) => void
   changeChildValue: (id: string, value: string) => void
+  changeChildWidth: (id: string, value: number) => void
 }
 
 const MatchColumns = {
@@ -59,6 +67,7 @@ const createChild = (column: string): Child => {
     focus: false,
     column,
     value: "",
+    width: 100,
     style: {
       fontSize: 14,
       color: "#000000",
@@ -76,7 +85,7 @@ const createChildren = (columns: keyof typeof MatchColumns): Child[] => {
 const initialState = {
   dragSection: false,
   dragRow: false,
-  generalOptions: { width: 600, backgroundColor: "#ffffff" },
+  documentStyle: { width: 600, backgroundColor: "#ffffff", margin: "auto" },
   focusRow: undefined,
   focusSection: undefined,
   sections: [
@@ -184,14 +193,21 @@ export const useEditorStore = create<EditorState>()((set) => ({
     set((state) => {
       return {
         ...state,
-        generalOptions: { ...state.generalOptions, width },
+        documentStyle: { ...state.documentStyle, width },
       }
     }),
   changeGeneralBackgroundColor: (backgroundColor: string) =>
     set((state) => {
       return {
         ...state,
-        generalOptions: { ...state.generalOptions, backgroundColor },
+        documentStyle: { ...state.documentStyle, backgroundColor },
+      }
+    }),
+  changeDocumentStyle: (style: DocumentStyle) =>
+    set((state) => {
+      return {
+        ...state,
+        documentStyle: style,
       }
     }),
   changeChildType: (id: string, type: string) =>
@@ -200,6 +216,7 @@ export const useEditorStore = create<EditorState>()((set) => ({
         const updatedChildren = section.children.map((child: any) => {
           if (child.id === id) {
             return {
+              ...child,
               id: uuidv4(),
               type,
               column: child.column,
@@ -253,6 +270,34 @@ export const useEditorStore = create<EditorState>()((set) => ({
             return {
               ...child,
               value,
+            }
+          }
+          return child
+        })
+
+        return {
+          ...section,
+          children: updatedChildren,
+        }
+      })
+
+      return {
+        ...state,
+        sections: sections,
+        focusRow: sections
+          .map((section: any) => section.children)
+          .flat()
+          .find((child: any) => child.id === id),
+      }
+    }),
+  changeChildWidth: (id: string, value: number) =>
+    set((state) => {
+      const sections = state.sections.map((section: any) => {
+        const updatedChildren = section.children.map((child: any) => {
+          if (child.id === id) {
+            return {
+              ...child,
+              width: value,
             }
           }
           return child
