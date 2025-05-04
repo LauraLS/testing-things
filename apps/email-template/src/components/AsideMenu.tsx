@@ -29,6 +29,8 @@ function MenuRowElement({ child }: PropsWithChildren<MenuRowElementProps>) {
   switch (child?.type) {
     case "text":
       return <AsideMenuRowText child={child} />;
+    case "heading":
+      return <AsideMenuRowText child={child} />;
     case "image":
       return <AsideMenuRowImage child={child} />;
     default:

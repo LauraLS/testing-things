@@ -3,6 +3,7 @@ import { type Child } from "@/stores/editor-store.ts";
 import ContentRowElementEmpty from "@/components/ContentRowElementEmpty.tsx";
 import ContentRowElementText from "@/components/ContentRowElementText.tsx";
 import ContentRowElementImage from "@/components/ContentRowElementImage.tsx";
+import ContentRowElementHeading from "@/components/ContentRowElementHeading.tsx";
 
 type ContentElementRowProps = {
   child: Child;
@@ -26,6 +27,8 @@ function ElementComponent({
       return <ContentRowElementText child={child} className={className} />;
     case "image":
       return <ContentRowElementImage child={child} className={className} />;
+    case "heading":
+      return <ContentRowElementHeading child={child} className={className} />;
     default:
       return <ContentRowElementEmpty child={child} className={className} />;
   }

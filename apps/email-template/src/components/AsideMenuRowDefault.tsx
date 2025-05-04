@@ -1,4 +1,4 @@
-import { Image, LetterText } from "lucide-react";
+import { Image, LetterText, Heading } from "lucide-react";
 import type { DragEvent } from "react";
 import { useEditorStore } from "@/stores/editor-store.ts";
 
@@ -39,13 +39,13 @@ export default function AsideMenuRowDefault() {
         <LetterText strokeWidth={1} size={40} className="" />
       </div>
       <div
-        data-type="image"
+        data-type="heading"
         className="w-full aspect-square bg-pink-50 flex justify-center items-center"
         draggable="true"
         onDragStart={handleDragRowStart}
         onDragEnd={handleDragRowEnd}
       >
-        <Image strokeWidth={1} size={40} className="" />
+        <Heading strokeWidth={1} size={40} className="" />
       </div>
       <div
         data-type="text"
