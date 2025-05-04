@@ -1,6 +1,7 @@
 import { type Child, useEditorStore } from "@/stores/editor-store.ts";
 import type { PropsWithChildren } from "react";
 import { Slider } from "@/components/ui/slider.tsx";
+import StepperInput from "@/components/ui/StepperInput.tsx";
 
 type AsideMenuSectionTextProps = {
   child: Child;
@@ -27,15 +28,15 @@ export default function AsideMenuRowText({
 
   return (
     <>
-      <div className="flex flex-col gap-4 w-full col-span-4 border-b border-black pb-4">
+      <div className="flex items-center justify-between gap-4 w-full col-span-4 border-b border-black pb-4">
         <p>Font size</p>
-        <Slider
-          value={[fontSize]}
+        <StepperInput
+          value={fontSize}
           min={6}
           max={42}
-          step={1}
-          className="w-full"
-          onValueChange={(value) => onChangeFontSize(value[0])}
+          step={0.2}
+          className="w-32"
+          onChange={(value) => onChangeFontSize(value)}
         />
       </div>
       <div className="flex items-center justify-between gap-4 w-full col-span-4 border-b border-black pb-4">
