@@ -1,9 +1,11 @@
 import ContentMain from "@/components/ContentMain";
 import AsideMenu from "@/components/AsideMenu";
 import { useEditorStore } from "@/stores/editor-store.ts";
+import { Button } from "@/components/ui/button.tsx";
 
 export default function App() {
   const onFocusElement = useEditorStore((state) => state.onFocusElement);
+  const sections2 = useEditorStore((state) => state.sections2);
 
   const onClickHandler = (event: any) => {
     const id = event.target.id;
@@ -15,6 +17,21 @@ export default function App() {
 
   const onMouseOverHandler = (event: any) => {};
 
+  const onClickDownloadButton = () => {
+    const body = [...sections2];
+
+    fetch("/api/render2", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json.render))
+      .catch(console.error);
+  };
+
   return (
     <div
       onMouseOver={onMouseOverHandler}
@@ -25,6 +42,7 @@ export default function App() {
         <nav className="flex flex-row gap-2 items-center">
           <a href="/">Home</a>
           <p>Version 2</p>
+          <Button onClick={onClickDownloadButton}>Download template</Button>
         </nav>
       </header>
       <section className="col-span-9">

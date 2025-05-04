@@ -13,6 +13,7 @@ export type Child = {
   type: string | undefined
   focus: boolean
   column: string
+  value: string
   style: ChildStyle
 }
 
@@ -41,6 +42,7 @@ interface EditorState {
   changeGeneralBackgroundColor: (backgroundColor: string) => void
   changeChildType: (id: string, type: string) => void
   changeChildStyle: (id: string, style: ChildStyle) => void
+  changeChildValue: (id: string, value: string) => void
 }
 
 const Match = {
@@ -100,6 +102,7 @@ const createChildren = (columns: keyof typeof Pepe): Child[] => {
       type: undefined,
       focus: false,
       column,
+      value: "",
       style: { fontSize: 14, color: "#000000", fontWeight: "normal" },
     }
   })
@@ -131,6 +134,7 @@ const initialState = {
           type: undefined,
           focus: false,
           column: "1",
+          value: "",
           style: { fontSize: 14, color: "#000000", fontWeight: "normal" },
         },
       ],
@@ -288,6 +292,34 @@ export const useEditorStore = create<EditorState>()((set) => ({
             return {
               ...child,
               style: style,
+            }
+          }
+          return child
+        })
+
+        return {
+          ...section,
+          children: updatedChildren,
+        }
+      })
+
+      return {
+        ...state,
+        sections2: sections,
+        focusRow: sections
+          .map((section: any) => section.children)
+          .flat()
+          .find((child: any) => child.id === id),
+      }
+    }),
+  changeChildValue: (id: string, value: string) =>
+    set((state) => {
+      const sections = state.sections2.map((section: any) => {
+        const updatedChildren = section.children.map((child: any) => {
+          if (child.id === id) {
+            return {
+              ...child,
+              value,
             }
           }
           return child

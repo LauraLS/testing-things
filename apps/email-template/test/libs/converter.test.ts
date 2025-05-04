@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { convertToHtml } from "@/libs/converter.ts"
+import { convertToHtml, convertToStructure } from "@/libs/converter.ts"
 
 describe("convertToHtml", () => {
   const cases: [any, any][] = [
@@ -79,7 +79,11 @@ describe("convertToHtml", () => {
       section: {
         children: [
           {
-            row: { children: [{ column: { children: [{ text: "asasa" }] } }] },
+            row: {
+              children: [
+                { column: { children: [{ text: { value: "asasa" } }] } },
+              ],
+            },
           },
         ],
       },
@@ -88,5 +92,156 @@ describe("convertToHtml", () => {
     expect(result).toBe(
       '<table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation"><tbody><tr><td><table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation"><tbody style="width:100%"><tr style="width:100%"><td data-id="__react-email-column"><p style="font-size:14px;line-height:24px;margin-bottom:16px;margin-top:16px">asasa</p></td></tr></tbody></table></td></tr></tbody></table>',
     )
+  })
+})
+
+describe("convertToStructure", () => {
+  it("Should convert to basic structure when sections is empty", async () => {
+    const result = convertToStructure([])
+
+    expect(result).toEqual({
+      html: {
+        lang: "es",
+        dir: "ltr",
+        children: [
+          {
+            head: {},
+          },
+          {
+            body: {
+              style: {},
+              children: [
+                {
+                  container: {
+                    style: {},
+                    children: [],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    })
+  })
+  it("Should convert to structure when has one section with type 1", async () => {
+    const result = convertToStructure([
+      {
+        id: "c7157f30-bce2-4ea6-86df-a4fc2387654b",
+        type: "1",
+        children: [
+          {
+            id: "054db709-ddaf-4758-9247-551c2f7381b5",
+            type: undefined,
+            focus: false,
+            column: "1",
+            style: { fontSize: 14, color: "#000000", fontWeight: "normal" },
+            value: "",
+          },
+        ],
+      },
+    ])
+
+    expect(result).toEqual({
+      html: {
+        lang: "es",
+        dir: "ltr",
+        children: [
+          {
+            head: {},
+          },
+          {
+            body: {
+              style: {},
+              children: [
+                {
+                  container: {
+                    style: {},
+                    children: [
+                      {
+                        row: {
+                          id: "c7157f30-bce2-4ea6-86df-a4fc2387654b",
+                          style: {},
+                          children: [],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    })
+  })
+  it("Should convert to structure when has one section with type 1 and has child text type", async () => {
+    const result = convertToStructure([
+      {
+        id: "c7157f30-bce2-4ea6-86df-a4fc2387654b",
+        type: "1",
+        children: [
+          {
+            id: "7d3ef08f-0246-4d0d-9350-58e1999a0017",
+            focus: false,
+            type: "text",
+            column: "1",
+            style: { fontSize: 19, color: "#fa0000", fontWeight: "normal" },
+            value: "New paragraph new",
+          },
+        ],
+      },
+    ])
+
+    expect(result).toEqual({
+      html: {
+        lang: "es",
+        dir: "ltr",
+        children: [
+          {
+            head: {},
+          },
+          {
+            body: {
+              style: {},
+              children: [
+                {
+                  container: {
+                    style: {},
+                    children: [
+                      {
+                        row: {
+                          id: "c7157f30-bce2-4ea6-86df-a4fc2387654b",
+                          style: {},
+                          children: [
+                            {
+                              column: {
+                                children: [
+                                  {
+                                    text: {
+                                      value: "New paragraph new",
+                                      id: "7d3ef08f-0246-4d0d-9350-58e1999a0017",
+                                      style: {
+                                        fontSize: 19,
+                                        color: "#fa0000",
+                                        fontWeight: "normal",
+                                      },
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    })
   })
 })

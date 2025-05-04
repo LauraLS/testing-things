@@ -11,8 +11,13 @@ export default function ContentRowElementText({
   className,
   child,
 }: PropsWithChildren<ContentRowElementTextProps>) {
+  const changeChildValue = useEditorStore((state) => state.changeChildValue);
   const focusRow = useEditorStore((state) => state.focusRow);
   const isFocused = focusRow?.id === child.id;
+
+  const onBlurHandler = (value: string) => {
+    changeChildValue(child.id, value);
+  };
 
   return (
     <div
@@ -31,6 +36,7 @@ export default function ContentRowElementText({
         contentEditable={true}
         className="focus-visible:outline-none"
         suppressContentEditableWarning={true}
+        onBlur={(event) => onBlurHandler(event.target.innerHTML)}
       >
         New paragraph
       </p>
