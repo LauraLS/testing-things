@@ -100,6 +100,7 @@ describe("convertToStructure", () => {
     const result = convertToStructure([], {
       width: 600,
       backgroundColor: "#ffffff",
+      margin: "auto",
     })
 
     expect(result).toEqual({
@@ -112,7 +113,7 @@ describe("convertToStructure", () => {
           },
           {
             body: {
-              style: { width: 600, backgroundColor: "#ffffff" },
+              style: { width: 600, backgroundColor: "#ffffff", margin: "auto" },
               children: [
                 {
                   container: {
@@ -139,6 +140,7 @@ describe("convertToStructure", () => {
               type: undefined,
               focus: false,
               column: "1",
+              width: 100,
               style: {
                 fontSize: 14,
                 color: "#000000",
@@ -151,7 +153,7 @@ describe("convertToStructure", () => {
           ],
         },
       ],
-      { width: 600, backgroundColor: "#ffffff" },
+      { width: 600, backgroundColor: "#ffffff", margin: "auto" },
     )
 
     expect(result).toEqual({
@@ -164,7 +166,7 @@ describe("convertToStructure", () => {
           },
           {
             body: {
-              style: { width: 600, backgroundColor: "#ffffff" },
+              style: { width: 600, backgroundColor: "#ffffff", margin: "auto" },
               children: [
                 {
                   container: {
@@ -199,6 +201,7 @@ describe("convertToStructure", () => {
               focus: false,
               type: "text",
               column: "1",
+              width: 100,
               style: {
                 fontSize: 19,
                 color: "#fa0000",
@@ -211,7 +214,7 @@ describe("convertToStructure", () => {
           ],
         },
       ],
-      { width: 600, backgroundColor: "#ffffff" },
+      { width: 600, backgroundColor: "#ffffff", margin: "auto" },
     )
 
     expect(result).toEqual({
@@ -224,7 +227,7 @@ describe("convertToStructure", () => {
           },
           {
             body: {
-              style: { width: 600, backgroundColor: "#ffffff" },
+              style: { width: 600, backgroundColor: "#ffffff", margin: "auto" },
               children: [
                 {
                   container: {
@@ -279,20 +282,20 @@ describe("convertToStructure", () => {
               focus: false,
               type: "image",
               column: "1",
+              width: 100,
               style: {
-                url: "https://example.com/image.png",
                 fontSize: 19,
                 color: "#fa0000",
                 fontWeight: "normal",
                 lineHeight: 1.2,
                 textAlign: "left",
               },
-              value: "New paragraph new",
+              value: "https://example.com/image.png",
             },
           ],
         },
       ],
-      { width: 600, backgroundColor: "#ffffff" },
+      { width: 600, backgroundColor: "#ffffff", margin: "auto" },
     )
 
     expect(result).toEqual({
@@ -305,7 +308,7 @@ describe("convertToStructure", () => {
           },
           {
             body: {
-              style: { width: 600, backgroundColor: "#ffffff" },
+              style: { width: 600, backgroundColor: "#ffffff", margin: "auto" },
               children: [
                 {
                   container: {
@@ -318,19 +321,21 @@ describe("convertToStructure", () => {
                           children: [
                             {
                               column: {
+                                style: {
+                                  fontSize: 19,
+                                  color: "#fa0000",
+                                  fontWeight: "normal",
+                                  lineHeight: 1.2,
+                                  textAlign: "left",
+                                },
                                 children: [
                                   {
                                     img: {
                                       src: "https://example.com/image.png",
-                                      value: "New paragraph new",
                                       id: "7d3ef08f-0246-4d0d-9350-58e1999a0017",
+                                      width: "100%",
                                       style: {
-                                        fontSize: 19,
-                                        color: "#fa0000",
-                                        fontWeight: "normal",
-                                        lineHeight: 1.2,
-                                        textAlign: "left",
-                                        url: "https://example.com/image.png",
+                                        display: "inline-block",
                                       },
                                     },
                                   },
