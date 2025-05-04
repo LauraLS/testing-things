@@ -1,4 +1,4 @@
-import { type PropsWithChildren, useState } from "react";
+import { type PropsWithChildren } from "react";
 import { cn } from "@/libs/utils.ts";
 
 type StepperInputProps = {
