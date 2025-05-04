@@ -101,30 +101,29 @@ export const convertToHtml = (json: JSON) => {
 }
 
 export const convertToStructure = (json: Section2[]): JSON => {
-  const children = json.map((section) => {
+  const children = json.map((section): JSON => {
+    const children = section.children.filter((child) => child.type) ?? []
+
     return {
       row: {
         id: section.id,
         style: {},
-        children: section.children
-          .map((child) => {
-            const { id, style, type, value } = child
-            if (!type) return null
-            return {
-              column: {
-                children: [
-                  {
-                    text: {
-                      id,
-                      style,
-                      value,
-                    },
+        children: children.map((child) => {
+          const { id, style, value } = child
+          return {
+            column: {
+              children: [
+                {
+                  text: {
+                    id,
+                    style,
+                    value,
                   },
-                ],
-              },
-            }
-          })
-          .filter(Boolean) as Partial<ComplexJSON>,
+                },
+              ],
+            },
+          }
+        }),
       },
     }
   })
