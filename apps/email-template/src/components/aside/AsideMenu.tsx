@@ -1,15 +1,20 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs.tsx";
 import {
   type Child,
   type Section,
   useEditorStore,
 } from "@/stores/editor-store.ts";
 import { type PropsWithChildren } from "react";
-import AsideMenuSectionDefault from "@/components/AsideMenuSectionDefault";
-import AsideMenuRowText from "@/components/AsideMenuRowText.tsx";
-import AsideMenuRowDefault from "@/components/AsideMenuRowDefault.tsx";
-import AsideMenuGeneralDefault from "@/components/AsideMenuGeneralDefault.tsx";
-import AsideMenuRowImage from "@/components/AsideMenuRowImage.tsx";
+import AsideMenuSectionDefault from "@/components/aside/AsideMenuSectionDefault.tsx";
+import AsideMenuRowText from "@/components/aside/AsideMenuRowText.tsx";
+import AsideMenuRowDefault from "@/components/aside/AsideMenuRowDefault.tsx";
+import AsideMenuGeneralDefault from "@/components/aside/AsideMenuGeneralDefault.tsx";
+import AsideMenuRowImage from "@/components/aside/AsideMenuRowImage.tsx";
 
 type MenuSectionElementProps = {
   section: Section | undefined;

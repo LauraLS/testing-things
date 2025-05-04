@@ -1,5 +1,5 @@
 import ContentMain from "@/components/ContentMain";
-import AsideMenu from "@/components/AsideMenu";
+import AsideMenu from "@/components/aside/AsideMenu.tsx";
 import { useEditorStore } from "@/stores/editor-store.ts";
 import { Button } from "@/components/ui/button.tsx";
 

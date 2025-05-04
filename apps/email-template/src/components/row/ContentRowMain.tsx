@@ -1,6 +1,6 @@
 import { type DragEvent, type PropsWithChildren, useState } from "react";
 import { useEditorStore, type Section } from "@/stores/editor-store.ts";
-import ContentRowElement from "@/components/ContentRowElement.tsx";
+import ContentRowElement from "@/components/row/ContentRowElement.tsx";
 
 type ContentMainRowProps = {
   id: string;
@@ -12,7 +12,7 @@ type ContentMainRowProps = {
   ) => void;
 };
 
-export default function ContentMainRow({
+export default function ContentRowMain({
   id,
   onDrop,
   section,

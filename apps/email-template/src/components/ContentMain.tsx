@@ -1,5 +1,5 @@
 import { type DragEvent } from "react";
-import ContentMainRow from "@/components/ContentMainRow.tsx";
+import ContentRowMain from "@/components/row/ContentRowMain.tsx";
 import { useEditorStore } from "@/stores/editor-store.ts";
 
 export default function ContentMain() {
@@ -27,7 +27,7 @@ export default function ContentMain() {
       {sections.map((section) => {
         const { id } = section;
         return (
-          <ContentMainRow
+          <ContentRowMain
             key={id}
             id={id}
             section={section}

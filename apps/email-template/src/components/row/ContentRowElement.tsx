@@ -1,9 +1,9 @@
 import { type PropsWithChildren } from "react";
 import { type Child } from "@/stores/editor-store.ts";
-import ContentRowElementEmpty from "@/components/ContentRowElementEmpty.tsx";
-import ContentRowElementText from "@/components/ContentRowElementText.tsx";
-import ContentRowElementImage from "@/components/ContentRowElementImage.tsx";
-import ContentRowElementHeading from "@/components/ContentRowElementHeading.tsx";
+import ContentRowElementEmpty from "@/components/row/ContentRowElementEmpty.tsx";
+import ContentRowElementText from "@/components/row/ContentRowElementText.tsx";
+import ContentRowElementImage from "@/components/row/ContentRowElementImage.tsx";
+import ContentRowElementHeading from "@/components/row/ContentRowElementHeading.tsx";
 
 type ContentElementRowProps = {
   child: Child;

@@ -1,16 +1,16 @@
 import { cn } from "@/libs/utils.ts";
-import { type Child, useEditorStore } from "@/stores/editor-store";
+import { type Child, useEditorStore } from "@/stores/editor-store.ts";
 import { type PropsWithChildren } from "react";
 
-type ContentRowElementHeadingProps = {
+type ContentRowElementTextProps = {
   className?: string;
   child: Child;
 };
 
-export default function ContentRowElementHeading({
+export default function ContentRowElementText({
   className,
   child,
-}: PropsWithChildren<ContentRowElementHeadingProps>) {
+}: PropsWithChildren<ContentRowElementTextProps>) {
   const changeChildValue = useEditorStore((state) => state.changeChildValue);
   const focusRow = useEditorStore((state) => state.focusRow);
   const isFocused = focusRow?.id === child.id;
@@ -30,7 +30,7 @@ export default function ContentRowElementHeading({
         className,
       )}
     >
-      <h1
+      <p
         style={{
           fontSize: fontSize,
           color: color,
@@ -44,7 +44,7 @@ export default function ContentRowElementHeading({
         onBlur={(event) => onBlurHandler(event.target.innerHTML)}
       >
         New paragraph
-      </h1>
+      </p>
     </div>
   );
 }
