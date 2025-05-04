@@ -12,7 +12,7 @@ export default function AsideMenuRowText({
 }: PropsWithChildren<AsideMenuSectionTextProps>) {
   const changeChildStyle = useEditorStore((state) => state.changeChildStyle);
   const { style } = child;
-  const { fontSize, color } = style;
+  const { fontSize, color, lineHeight } = style;
 
   const onChangeFontSize = (value: number) => {
     changeChildStyle(child.id, { ...style, fontSize: value });
@@ -24,6 +24,10 @@ export default function AsideMenuRowText({
 
   const onChangeFontWeight = (value: string) => {
     changeChildStyle(child.id, { ...style, fontWeight: value });
+  };
+
+  const onChangeParagraphSpacing = (value: number) => {
+    changeChildStyle(child.id, { ...style, lineHeight: value });
   };
 
   return (
@@ -64,6 +68,17 @@ export default function AsideMenuRowText({
           <option value="normal">Regular</option>
           <option value="bold">Bold</option>
         </select>
+      </div>
+      <div className="flex items-center justify-between gap-4 w-full col-span-4 border-b border-black pb-4">
+        <p>Paragraph spacing</p>
+        <StepperInput
+          value={lineHeight}
+          min={0.5}
+          max={3}
+          step={0.1}
+          className="w-32"
+          onChange={(value) => onChangeParagraphSpacing(value)}
+        />
       </div>
     </>
   );

@@ -6,6 +6,7 @@ export type ChildStyle = {
   color: string
   fontWeight: string
   url?: string
+  lineHeight: number
 }
 
 export type Child = {
@@ -103,7 +104,12 @@ const createChildren = (columns: keyof typeof Pepe): Child[] => {
       focus: false,
       column,
       value: "",
-      style: { fontSize: 14, color: "#000000", fontWeight: "normal" },
+      style: {
+        fontSize: 14,
+        color: "#000000",
+        fontWeight: "normal",
+        lineHeight: 1.2,
+      },
     }
   })
 }
@@ -135,7 +141,12 @@ const initialState = {
           focus: false,
           column: "1",
           value: "",
-          style: { fontSize: 14, color: "#000000", fontWeight: "normal" },
+          style: {
+            fontSize: 14,
+            color: "#000000",
+            fontWeight: "normal",
+            lineHeight: 1.2,
+          },
         },
       ],
     },

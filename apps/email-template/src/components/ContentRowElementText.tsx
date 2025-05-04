@@ -32,6 +32,7 @@ export default function ContentRowElementText({
           fontSize: child.style.fontSize,
           color: child.style.color,
           fontWeight: child.style.fontWeight,
+          lineHeight: child.style.lineHeight,
         }}
         contentEditable={true}
         className="focus-visible:outline-none"
