@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from "react";
+import { type PropsWithChildren, useState } from "react";
 import { cn } from "@/libs/utils.ts";
 
 type StepperInputProps = {
@@ -19,7 +19,10 @@ export default function StepperInput({
   step = 1,
 }: PropsWithChildren<StepperInputProps>) {
   const calculateValue = (value: number) => {
-    return +(Math.round(value * 10) / 10).toFixed(1);
+    const newValue = +(Math.round(value * 10) / 10).toFixed(1);
+    if (newValue > max) return max;
+    if (newValue < min) return min;
+    return newValue;
   };
 
   return (
@@ -35,7 +38,7 @@ export default function StepperInput({
         id="number"
         type="number"
         value={value}
-        onChange={(event) => onChange?.(Number(event.target.value))}
+        onChange={(event) => onChange?.(event.target.valueAsNumber)}
         min={min}
         max={max}
         step={step}
