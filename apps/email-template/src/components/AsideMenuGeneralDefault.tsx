@@ -1,5 +1,6 @@
 import { Slider } from "@/components/ui/slider.tsx";
 import { useEditorStore } from "@/stores/editor-store.ts";
+import StepperInput from "@/components/ui/StepperInput.tsx";
 
 export default function AsideMenuGeneralDefault() {
   const generalOptions = useEditorStore((state) => state.generalOptions);
@@ -12,15 +13,15 @@ export default function AsideMenuGeneralDefault() {
 
   return (
     <>
-      <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between gap-4">
         <p>Content area width</p>
-        <Slider
-          value={[generalOptions.width]}
+        <StepperInput
+          value={generalOptions.width}
           min={480}
           max={900}
-          step={1}
+          step={10}
           className=""
-          onValueChange={(value) => changeGeneralWidth(value[0])}
+          onChange={(value) => changeGeneralWidth(value)}
         />
       </div>
       <div className="flex items-center justify-between gap-4">

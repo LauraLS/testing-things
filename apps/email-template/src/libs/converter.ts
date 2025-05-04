@@ -16,7 +16,7 @@ import {
 } from "@react-email/components"
 import ReactDOMServer from "react-dom/server"
 import React from "react"
-import type { Section } from "@/stores/editor-store.ts"
+import type { Section as SectionType } from "@/stores/editor-store.ts"
 
 type ComponentKey = keyof typeof componentsMap
 
@@ -100,7 +100,7 @@ export const convertToHtml = (json: JSON) => {
   return ReactDOMServer.renderToString(createElements(json))
 }
 
-export const convertToStructure = (json: Section[]): JSON => {
+export const convertToStructure = (json: SectionType[]): JSON => {
   const children = json.map((section): JSON => {
     const children = section.children.filter((child) => child.type) ?? []
 
